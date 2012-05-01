@@ -1,0 +1,8 @@
+function regres = LogitBoost_2class(xtrain, ytrain, M)
+%LogitBoost Logit Boost Algorithm
+%   return a set of weighted least-squares regressions
+
+    N = size(xtrain, 1);
+    
+end
+
