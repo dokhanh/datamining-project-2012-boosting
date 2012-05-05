@@ -1,0 +1,15 @@
+function [x,y] = rexempleMC(alpha, N, d, J)
+%rexempleMC Generate multi-class dataset
+%   Input:
+%   alpha: Bayes Error
+%   N: size of dataset
+%   d: number of explaining variables
+%   J: number of classes
+%   Output:
+%   x: explaining variables
+%   y: response variable
+
+    x = unifrnd(0, 1, N, d);
+    y = (x(:, 1) - 0.5).^2 + (x(:, 2) - 0.5).^2
+end
+
