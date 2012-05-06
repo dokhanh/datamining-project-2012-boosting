@@ -3,7 +3,7 @@ alpha = 0; % erreurs al?atoires
 N = 500;
 d = 2; % nombre de variables explicatives
 %[xtrain,ytrain] = rexemple(alpha, N, d);
-J = 3;
+J = 4;
 [xtrain,ytrain] = rexempleMC(alpha, N, d, J);
 
 %% Discrete AdaBoost
@@ -33,6 +33,6 @@ for et = 1:e
 end
 errSyntt = mean(errSynt);
 %errSyntt2 = mean(errSynt2);
-plot(errSyntt, 'r');
+plot(errSyntt, 'b');
 %hold on
 %plot(errSyntt2);
