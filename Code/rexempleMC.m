@@ -10,6 +10,7 @@ function [x,y] = rexempleMC(alpha, N, d, J)
 %   y: response variable
 
     x = unifrnd(0, 1, N, d);
+    % dataset 1
 %     y = zeros(N, 1);
 %     for i = 1:N
 %         if (x(i, 1)^2 + (x(i, 2) - 0.5)^2 < 2/(3*pi))
@@ -22,6 +23,8 @@ function [x,y] = rexempleMC(alpha, N, d, J)
 %             end
 %         end
 %     end
+
+    % dataset 2 (more difficult)
     y = min(round(((x(:, 1) - 0.5).^2 + (x(:, 2) - 0.5).^2)*J*pi + 1), J);
     u = unifrnd(0, 1, N, 1);
     y(u < alpha) = unidrnd(J, sum(u < alpha), 1);
