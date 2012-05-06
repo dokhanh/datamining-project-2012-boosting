@@ -12,7 +12,7 @@ function [resSynt, F, R] = output_AdaBoostMH(trees, M, xtest, J)
     F = zeros(n, M, J);
     R = zeros(n, M, J);
     for j = 1:J
-        [R(:,:,j), F(:,:,j)] = output_RealAdaBoost(trees(j,:), M, xtest);
+        [R(:,:,j), F(:,:,j)] = output_LogitBoost_2class(trees(j,:), M, xtest);
     end
 %     [~, FSyntExp] = output_RealAdaBoost(trees, M, xtestExp);
     resSynt = zeros(n, M);
