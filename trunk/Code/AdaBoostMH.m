@@ -16,7 +16,7 @@ function trees = AdaBoostMH(xtrain, ytrain, M, J)
     trees = cell(J, M);
     for j = 1:J
         ytrainOAA = 2*(ytrain == j)-1; % one againsts all
-        trees(j,:) = RealAdaBoost(xtrain, ytrainOAA, M);
+        trees(j,:) = LogitBoost_2class(xtrain, ytrainOAA, M);
     end
 end
 
