@@ -19,8 +19,8 @@ function [resSynt, FSynt] = output_RealAdaBoost(trees, M, xtest)
             [~,k] = max(p(1,:));
         end
         p = p(:, k);
-        p = max(p, 0.0000001);
-        p = min(p, 1-0.0000001);
+        p = max(p, 0.0000001); % numerical problem here
+        p = min(p, 1-0.0000001); % numerical problem here
         F(:, m) = (1/2)*log(p./(1-p));
     end
     FSynt = zeros(n, M);
