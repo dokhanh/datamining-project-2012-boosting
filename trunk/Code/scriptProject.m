@@ -14,7 +14,8 @@ M = 100; % nombre d'it?rations
 trees1 = LogitBoost_2class(xtrain, ytrain, M);
 % trees = AdaBoostMH(xtrain, ytrain, M, J);
 % trees1 = LogitBoost_Multiclass(xtrain, ytrain, M, J);
-trees = LS_Boost(xtrain, ytrain, M);
+% trees = LS_Boost(xtrain, ytrain, M);
+trees = LAD_TreeBoost(xtrain, ytrain, M);
 
 %% Output
 e = 100; % nombre d'essais
@@ -30,7 +31,8 @@ for et = 1:e
     [resSynt1, ~] = output_LogitBoost_2class(trees1, M, xtest);
 %     [resSynt, ~] = output_AdaBoostMH(trees, M, xtest, J);
 %     [resSynt1, FSynt1] = output_LogitBoost_Multiclass(trees1, M, xtest, J);
-    [resSynt, FSynt] = output_LS_Boost(trees, M, xtest);
+%     [resSynt, FSynt] = output_LS_Boost(trees, M, xtest);
+    [resSynt, FSynt] = output_LAD_TreeBoost(trees, M, xtest);
     for m = 1:M
         errSynt(et, m) = sum(resSynt(:, m) ~= ytest)/n;
         errSynt1(et, m) = sum(resSynt1(:, m) ~= ytest)/n;
