@@ -9,6 +9,7 @@ function trees = LS_Boost(xtrain, ytrain, M)
         if (m > 1)
             ybarre = ytrain - F(:, m-1);
         else
+%             ybarre = ytrain - mean(ytrain);
             ybarre = ytrain;
         end
         t = classregtree(xtrain,ybarre,'minparent',N);
@@ -17,6 +18,7 @@ function trees = LS_Boost(xtrain, ytrain, M)
         if (m > 1)
             F(:, m) = F(:, m-1) + h;
         else
+%             F(:, m) = h + mean(ytrain);
             F(:, m) = h;
         end
     end
