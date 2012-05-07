@@ -1,0 +1,25 @@
+function trees = LS_Boost(xtrain, ytrain, M)
+%UNTITLED5 Summary of this function goes here
+%   Detailed explanation goes here
+
+    N = size(xtrain, 1);
+    F = zeros(N, M);
+    trees = cell(M, 2);
+    for m = 1:M
+        if (m > 1)
+            ybarre = ytrain - F(:, m-1);
+        else
+            ybarre = ytrain;
+        end
+        t = classregtree(xtrain,ybarre,'minparent',N);
+        trees{m, 1} = t;
+        [h, nodes] = eval(t, xtrain);
+        l = nodemean(trees{67, 1})
+        if (m > 1)
+            F(:, m) = F(:, m-1) + rho*h;
+        else
+            F(:, m) = rho*h;
+        end
+    end
+end
+
