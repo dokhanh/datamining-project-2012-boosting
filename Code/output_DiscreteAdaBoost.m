@@ -1,4 +1,4 @@
-function resSynt = output_DiscreteAdaBoost(trees, C, M, xtest)
+function [resSynt, F] = output_DiscreteAdaBoost(trees, C, M, xtest)
 %output_DiscreteAdaBoost retourne les classifications pour Discrete
 %AdaBoost
 %   Input:
@@ -18,8 +18,10 @@ function resSynt = output_DiscreteAdaBoost(trees, C, M, xtest)
         end
     end
     resSynt = zeros(n, M);
+    F = zeros(n, M);
     for m = 1:M
-        resSynt(:, m) = 2*(res(:, 1:m)*C(1:m, 1) > 0) - 1;
+        F(:, m) = res(:, 1:m)*C(1:m, 1);
+        resSynt(:, m) = 2*(F(:, m) > 0) - 1;
     end
 end
 
