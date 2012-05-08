@@ -81,8 +81,44 @@
 \section{Introduction}
 
 \section{Two-class classification}
+In this first part, we present an overview on boosting methods in the two-class classification framework. From a \textsl{training} set $(\textbf{x}_i, y_i)_{i = 1,...,N}$ in which $\textbf{x}_i \in \mathcal{X}$ and $y_i \in \mathcal{Y}$, we try to construct a function $F: \mathcal{X} \rightarrow \mathcal{Y}$ so that when a new value $\textbf{x}$ is randomly introduced, we have the highest probability to predict correctly the value $y$ corresponding to this value of $\textbf{x}$. Formally, we want to minimize the probability:
+\begin{align}
+    \mathbb{P}_{(\textbf{x}, y)} \left( y \neq F(\textbf{x})\right) \notag
+\end{align}
+The variable $\textbf{x}$ is called explanatory variables ($\textbf{x}$ may be multi-variational) and $y$ is called response variable. In the two-class classification framework, $\mathcal{Y} = \{ -1, 1\}$.
 
 \subsection{Boosting and optimization in function space}
+We exploit the point of view presented in \cite{trebst} by considering this problem as an estimation and optimization in function space. Indeed, if there exists a function $F^{*}$ which minimizes the above error:
+\begin{align}
+    F^{*} &= arg\min\limits_{F} \mathbb{P}_{(\textbf{x},y)} (y \neq F(\textbf{x})) \notag \\
+    &= arg\min\limits_{F} \mathbb{E}_{(\textbf{x}, y)} \left[ 1(y \neq F(\textbf{x}))\right] \notag
+\end{align}
+then we are trying to estimate $F^{*}$ by a function $\hat{F}$ through the training set $(\textbf{x}_i, y_i)_{i=1,...,N}$.
+
+\textbf{Base classifiers:} An approach frequently employed by classification algorithms is to suppose $F^{*}$ belongs to a function class parameterized by $\theta \in \Theta$:
+\begin{align}
+    F^{*} \in \mathcal{Q} = \left\lbrace F(., \theta) \vert \theta \in \Theta\right\rbrace \notag
+\end{align}
+so that the problem of estimating $F^{*}$ becomes an optimization of the parameters on $\Theta$:
+\begin{align}
+    \hat{\theta} = arg\min\limits_{\theta \in \Theta} \mathbb{E}_{(\textbf{x}, y)} \left[ 1(y \neq F(\textbf{x}, \theta))\right] \notag
+\end{align}
+and then we will take $\hat{F} = F(., \hat{\theta}) \in \mathcal{Q}$. For example, with regression tree algorithms, we have:
+\begin{align}
+    \mathcal{Q} = \left\lbrace F(x, \theta) = \sum\limits_{k=1}^K \lambda_k 1(\textbf{x} \in R_k) \vert (\lambda_1,...,\lambda_K) \in \mathbb{R}^K, (R_1,...,R_K) \in \mathcal{P}_{\mathcal{X}}\right\rbrace \notag
+\end{align}
+in which $\theta = (\lambda_{1:K}, R_{1:K})$ and $\mathcal{P}_{\mathcal{X}}$ is the set of all partitions of $\mathcal{X}$ into $K$ disjoint subsets by hyperplans which are orthogonal to axes. Similarly for support vector machines, $K$ disjoint subsets $R_1,...,R_K$ are divided by hyperplans in the reproducing kernel Hilbert space of $\mathcal{X}$ corresponding to some kernel.
+
+We can see that a classifier is characterized by its function sub-space $\mathcal{Q}$ and the corresponding parameter space. Having the base classifiers $\mathcal{Q}_{1:M}$ with parameter spaces $\Theta_{1:M}$, instead of considering each of these classifiers separately, boosting methods consider functions of the following additive form:
+\begin{align}
+    \hat{F} \in \mathcal{F}_{\mathcal{Q}_1,...,\mathcal{Q}_M} = \left\lbrace \sum\limits_{m=1}^M \beta_m F(., \theta_m) \vert \theta_m \in \Theta_m, \forall m = 1,...,M\right\rbrace \notag
+\end{align}
+so that the optimization problem becomes:
+\begin{align}
+    \left\lbrace \hat{\beta}_{1:M}, \hat{\theta}_{1:M}\right\rbrace = 
+\end{align}
+
+The paper explains boosting . Advantage
 
 \subsection{One-degree optimization}
 
@@ -105,9 +141,9 @@
 \section{Conclusion}
 
 \begin{thebibliography}{9999}%\enlargethispage{\baselineskip}
-\bibitem[1]{boost}Friedman, J., Hastie, T. \& Tibshirani, R. \textsl{Additive Logistic Regression: a Statistical View of Boosting}, 1999.
+\bibitem[1]{boost}Friedman, J., Hastie, T. \& Tibshirani, R. \textsl{Additive Logistic Regression: a Statistical View of Boosting}, 2000.
 
-\bibitem[2]{trebst}Friedman, J. \textsl{Greedy Function Approximation: A Gradient Boosting Machine}, IMS 1999 Reitz Lecture, 1999.
+\bibitem[2]{trebst}Friedman, J. \textsl{Greedy Function Approximation: A Gradient Boosting Machine}, IMS 1999 Reitz Lecture, 2001.
 
 \bibitem[3]{SchaAndSin1998}Schapire, R.E. \& Singer, Y. \textsl{Improved Boosting Algorithms: Using Confidence-rated Predictions}, 1998.
 
