@@ -13,9 +13,11 @@ M = 100; % nombre d'it?rations
 % trees2 = GentleAdaBoost(xtrain, ytrain, M);
 trees1 = LogitBoost_2class(xtrain, ytrain, M);
 % trees = AdaBoostMH(xtrain, ytrain, M, J);
-% trees1 = LogitBoost_Multiclass(xtrain, ytrain, M, J);
+% trees = LogitBoost_Multiclass(xtrain, ytrain, M, J);
 % trees = LS_Boost(xtrain, ytrain, M);
-trees = LAD_TreeBoost(xtrain, ytrain, M);
+% trees = LAD_TreeBoost(xtrain, ytrain, M);
+trees = L2_TreeBoost(xtrain, ytrain, M);
+% trees1 = MultiClass_TreeBoost(xtrain, ytrain, M, J);
 
 %% Output
 e = 100; % nombre d'essais
@@ -25,14 +27,17 @@ errSynt1 = zeros(e, M);
 for et = 1:e
     et
     [xtest, ytest] = rexemple(alpha, n, d);
+%     [xtest, ytest] = rexempleMC(alpha, n, d, J);
     %resSynt = output_DiscreteAdaBoost(trees, C, M, xtest);
     %[resSynt, ~] = output_RealAdaBoost(trees, M, xtest);
 %     [resSynt2, ~] = output_GentleAdaBoost(trees2, M, xtest);
     [resSynt1, ~] = output_LogitBoost_2class(trees1, M, xtest);
 %     [resSynt, ~] = output_AdaBoostMH(trees, M, xtest, J);
-%     [resSynt1, FSynt1] = output_LogitBoost_Multiclass(trees1, M, xtest, J);
+%     [resSynt, FSynt] = output_LogitBoost_Multiclass(trees, M, xtest, J);
 %     [resSynt, FSynt] = output_LS_Boost(trees, M, xtest);
-    [resSynt, FSynt] = output_LAD_TreeBoost(trees, M, xtest);
+%     [resSynt, FSynt] = output_LAD_TreeBoost(trees, M, xtest);
+    [resSynt, FSynt] = output_L2_TreeBoost(trees, M, xtest);
+%     [resSynt1, FSynt1] = output_MultiClass_TreeBoost(trees1, M, xtest, J);
     for m = 1:M
         errSynt(et, m) = sum(resSynt(:, m) ~= ytest)/n;
         errSynt1(et, m) = sum(resSynt1(:, m) ~= ytest)/n;
