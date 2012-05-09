@@ -111,7 +111,7 @@ in which $\theta = (\lambda_{1:K}, R_{1:K})$ and $\mathcal{P}_{\mathcal{X}}$ is 
 
 We can see that a classifier is characterized by its function sub-space $\mathcal{Q}$ and the corresponding parameter space. Having the base classifiers $\mathcal{Q}_{1:M}$ with parameter spaces $\Theta_{1:M}$, instead of considering each of these classifiers separately, boosting methods consider functions of the following additive form:
 \begin{align}
-    \hat{F} \in \mathcal{F}_{\mathcal{Q}_1,...,\mathcal{Q}_M} = \left\lbrace \sum\limits_{m=1}^M \beta_m F(., \theta_m) \vert \theta_m \in \Theta_m, \forall m = 1,...,M\right\rbrace \notag
+    \hat{F} \in \mathcal{F}_{\mathcal{Q}_1,...,\mathcal{Q}_M} = \left\lbrace \sum\limits_{m=1}^M \beta_m f(., \theta_m) \vert \theta_m \in \Theta_m, \forall m = 1,...,M\right\rbrace \notag
 \end{align}
 so that the optimization problem becomes:
 \begin{align}
