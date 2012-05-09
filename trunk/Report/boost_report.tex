@@ -95,7 +95,7 @@ We exploit the point of view presented in \cite{trebst} by considering this prob
 \end{align}
 then we are trying to estimate $F^{*}$ by a function $\hat{F}$ through the training set $(\textbf{x}_i, y_i)_{i=1,...,N}$.
 
-\textbf{Base classifiers:} An approach frequently employed by classification algorithms is to suppose $F^{*}$ belongs to a function class parameterized by $\theta \in \Theta$:
+\textbf{Base classifiers.} An approach frequently employed by classification algorithms is to suppose $F^{*}$ belongs to a function class parameterized by $\theta \in \Theta$:
 \begin{align}
     F^{*} \in \mathcal{Q} = \left\lbrace F(., \theta) \vert \theta \in \Theta\right\rbrace \notag
 \end{align}
@@ -115,10 +115,36 @@ We can see that a classifier is characterized by its function sub-space $\mathca
 \end{align}
 so that the optimization problem becomes:
 \begin{align}
-    \left\lbrace \hat{\beta}_{1:M}, \hat{\theta}_{1:M}\right\rbrace = 
+    \left\lbrace \hat{\beta}_{1:M}, \hat{\theta}_{1:M}\right\rbrace = arg\min\limits_{\beta \in \mathbb{R}^M, \theta_{1:M} \in \Theta_{1:M}} \mathbb{E}_{(\textbf{x}, y)} \left[ 1(y \neq F(\textbf{x}; \beta_{1:M}, \theta_{1:M}))\right] \label{opt_add}
 \end{align}
 
-The paper explains boosting . Advantage
+Friedman, J. and Hastie, T. in \cite{boost} explained boosting as a forward stepwise algorithm for resolve the optimization problem \eqref{opt_add}. Friedman, J. in \cite{trebst} considered boosting like optimization algorithm in function space. We will try to adopt the latter to explain all mentioned boosting algorithms. Before going into greater details, we remark that as an classification algorithm, the boosting algorithm has its corresponding function subset which is $\mathcal{F} = \mathcal{F}_{\mathcal{Q}_1,...,\mathcal{Q}_M} = \sum\limits_{m=1}^M \mathcal{Q}_m$ so much larger than function subset of all base classifiers, explaining the dominating performance of boosting compared to its base classifiers.
+
+\textbf{Loss function.} We remark that the binary loss function $1(y \neq F(\textbf{x}))$ is not the only function that reflects the difference between $y$ and $F(\textbf{x})$. In machine learning, one has other loss functions that are continuous, convex and then easier to do the optimization. For the rest of the report, we use in general $L(y, F(\textbf{x}))$ to indicate this function.
+
+\textbf{Optimization on training set.} One difficulty is that we can not evaluate the distribution of $(\textbf{x}, y)$ and calculate the expectation in the right hand side formula of \eqref{opt_add}. Instead, we only want to optimize on the training data, which means the following optimization problem:
+\begin{align}
+    F^{*} = arg\min\limits_{F} \sum\limits_{i=1}^N L(y_i, F(x_i)) \notag
+\end{align}
+Put $Q(F) = \sum\limits_{i=1}^N L(y_i, F(\textbf{x}_i))$, we remark that $Q(F)$ depends only on $N$ values of the function $F$ at $(\textbf{x}_1,...,\textbf{x}_N)$. We denote for each function $F$ in the function space, a corresponding vector $\overline{F} \in \mathbb{R}^N$ so that $\overline{F} = (F(\textbf{x}_1),...,F(\textbf{x}_N))$, and we consider the relaxation problem on vector space $\mathbb{R}^N$: $\overline{F^{*}} = arg\min\limits_{\overline{F} \in \mathbb{R}^N} Q(\overline{F})$. We try to resolve this problem by recursive numerical methods. Suppose that at ${m-1}^{th}$ step we obtain a value $\overline{F}_{m-1}$. By numerical methods (Newton-Raphson, algorithm of gradient descent etc.) we find a direction of descent $d_m \in \mathbb{R}^N$ and a coefficient $c_m$ so that if we put $\overline{F}_m = \overline{F}_{m-1} + c_m.d_m$, then $Q(\overline{F}_m) \leq Q(\overline{F}_{m-1})$. But we can not use the direction $d_m$ directly in the original problem with functions $F_m$ because $\overline{F}_m$ identifies the values of functions only at $N$ points. Instead, we have to find a regression function near to the direction $d_m$; it means if we use a function subspace $\mathcal{Q}_m$ at $m^{th}$ step, then we have to solve:
+\begin{align}
+    \left\lbrace f_m, c\right\rbrace = arg\min\limits_{f_m\in \mathcal{Q}_m, c\in \mathbb{R}} \| d_m - c.\overline{f_m}\|^2 \notag
+\end{align}
+in which $\overline{f_m}$ is the vector of values of $f_m$ at $(\textbf{x}_1,...,\textbf{x}_N)$. After that, we have to look for a coefficient $\beta_m$ so that, if $F_{m-1}$ is the function obtained at the precedent step, then $Q(F_m) \leq Q(F_{m-1})$ with $F_m = F_{m-1} + \beta_mf_m$. If we start with $F_0 = 0$ then we obtain at $M^{th}$ the additive form $F_M = \sum\limits_{m=1}^M \beta_mf_m \in \mathcal{F} = \sum\limits_{m=1}^M \mathcal{Q}_m$. We summary this generic algorithm in the following table.
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{Algorithm 1: Generic algorithm of boosting}\\
+	        1. Start with $F_0(\textbf{x}) = 0$.\\
+	        2. Repeat for $m = 1,2,...,M$:\\
+	        (a) Search for a direction descent $d_m \in \mathbb{R}^N$ by some Newton-like numerical algorithm of optimization in $\mathbb{R}^N$.\\
+	        (b) Solve $\left\lbrace f_m, c\right\rbrace = arg\min\limits_{f_m\in \mathcal{Q}_m, c\in \mathbb{R}} \| d_m - c.\overline{f_m}\|^2$.\\
+	        (c) Search for a coefficient $\beta_m$ so that $Q(F_{m-1} + \beta_mf_m) \leq Q(F_{m-1})$, a line-search strategy can be used.\\
+	        (d) $F_m = F_{m-1} + \beta_mf_m$.\\
+	        3. Conclude with $F(\textbf{x})$.
+	    }
+	}
+\end{center}
 
 \subsection{One-degree optimization}
 
