@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.6.5)  8 MAY 2012 19:06
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.6.5)  9 MAY 2012 04:12
 entering extended mode
 **boost_report.tex
 
@@ -421,17 +421,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2]
+[2] [3]
 (C:\Users\Khanh\workspace\coursTelecomApp\project\svn-travail\Report\boost_repo
 rt.aux) ) 
 Here is how much of TeX's memory you used:
- 3949 strings out of 494053
- 51877 string characters out of 3148604
- 116766 words of memory out of 3000000
- 7133 multiletter control sequences out of 15000+200000
+ 3952 strings out of 494053
+ 51909 string characters out of 3148604
+ 120774 words of memory out of 3000000
+ 7136 multiletter control sequences out of 15000+200000
  69321 words of font info for 61 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 28i,11n,43p,566b,241s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 28i,11n,43p,1284b,277s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Prog
 ram Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX 2.9/
 fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/l
@@ -448,9 +448,9 @@ X 2.9/fonts/type1/public/lm/lmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
 ublic/lm/lmro12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.p
 fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy8.pfb><C:/Program Fil
 es/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on boost_report.pdf (2 pages, 216596 bytes).
+Output written on boost_report.pdf (3 pages, 234881 bytes).
 PDF statistics:
- 76 PDF objects out of 1000 (max. 8388607)
+ 79 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
