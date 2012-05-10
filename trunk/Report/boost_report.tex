@@ -87,7 +87,7 @@ In this first part, we present an overview on boosting methods in the two-class 
 \end{align}
 The variable $\textbf{x}$ is called explanatory variables ($\textbf{x}$ may be multi-variational) and $y$ is called response variable. In the two-class classification framework, $\mathcal{Y} = \{ -1, 1\}$.
 
-\subsection{Boosting and optimization in function space}
+\subsection{Boosting and optimization in function space}\label{boo_fun_sp}
 We exploit the point of view presented in \cite{trebst} by considering this problem as an estimation and optimization in function space. Indeed, if there exists a function $F^{*}$ which minimizes the above error:
 \begin{align}
     F^{*} &= arg\min\limits_{F} \mathbb{P}_{(\textbf{x},y)} (y \neq F(\textbf{x})) \notag \\
@@ -241,7 +241,34 @@ We recognize that $d_m(\textbf{x})$ is in fact an empirical estimation of the qu
 \subsection{$L(y, F(\textbf{x})) = (y - F(\textbf{x}))^2$}
 
 \subsection{$L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$}
+With $L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$, we choose $d_m^{(i)} = \dfrac{\partial Q}{\partial \overline{F}_i}\vert_{\overline{F} = \overline{F}_{m-1}} = sign(y_i - F_{m-1}(\textbf{x}_i)), \forall i = 1:N$. We can always follow the generic algorithm presented in \ref{boo_fun_sp} with all kinds of base classifiers. Here we discuss on how to adapt regression tree to our boosting algorithm, because it will be the only base classifier used in our experiments.
 
+Firstly, we remark that the coefficient $c > 0$ in the line 2(b) of our generic algorithm does not change fondamentally the properties of regression trees $f_m$; it suffices to get regression tree $f_m$ to approximate the direction $d_m$. A regression tree $f_m$ divide $\mathcal{X}$-space into $K$ disjoint subspace $R_{m,k}$ so that $\bigcup\limits_{k=1}^K R_{m,k} = \mathcal{X}$. For $\textbf{x}$ belonging to each of these areas, $f_m(\textbf{x})$ takes a value $\lambda_{m,k}$. We can rewrite $f_m(\textbf{x}) = \sum\limits_{k=1}^K \lambda_{m,k} 1(\textbf{x}\in R_{m,k})$. The constant $\beta_m$ in the line 2(c) changes these values $\lambda_{m,k}$ by a same way. Another method which gives a better optimization than line 2(c) is to modify all regression values $\lambda_{m,k}$ in this phase and not only the parameter $\beta_m$, that means:
+\begin{align}
+    \{ \lambda_{m,k}\}_{k=1:K} = arg\min\limits_{\lambda \in \mathbb{R}^K} Q(F_{m-1} + \sum\limits_{k=1}^K \lambda_k 1(\textbf{x} \in R_{m,k})) \notag
+\end{align}
+This method is clearly more powerful than optimization only on $\beta_m$ and is in fact operated separately in each $R_{m,k}$: For each $k=1:K$,
+\begin{align}
+    \lambda_{m,k} = arg\min\limits_{\lambda \in \mathbb{R}} \sum\limits_{\textbf{x}_i \in R_{m,k}} L(y_i, F_{m-1}(\textbf{x}_i) + \lambda) \label{opt_LAD_local}
+\end{align}
+Finally, the areas $R_{m,k}$ are divided accordint to the regression in line 2(b), which tries to approximate $d_m$ by $f_m$ (as explained, we have taken $c = 1$).
+
+%For the absolute loss function, according to \eqref{opt_LAD_local}, we have $\lambda_{m,k} = arg\min\limits_{\lambda \in \mathbb{R}} \vert y_i - F_{m-1}(\textbf{x}_i) - \lambda\vert = \text{median} \{y_i - F_{m-1}(\textbf{x}_i)\}_{i, \textbf{x}_i \in R_{m,k}}$, $\forall k=1:K$. We obtain \textsl{LAD TreeBoost} algorithm described below.
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{LAD TreeBoost}\\
+	        1. Start with $F_0(\textbf{x}) = 0$.\\
+	        2. Repeat for $m = 1,2,...,M$:\\
+	        (a) $\overline{y}_i = sign(y_i - F_{m-1}(\textbf{x}_i)), i = 1:N$.\\
+	        (b) $\{R_{m,k}\}_{k=1:K}$ is the $K$-terminal node tree regression of $\overline{y}_i$ on $\textbf{x}_i, i = 1:N$.\\
+	        (c) $\lambda_{m,k} = \text{median}\{y_i - F_{m-1}(\textbf{x}_i)\}_{i, \textbf{x}_i \in R_{m,k}}$ for $k=1:K$.\\
+	        (d) $F_m(\textbf{x}) = F_{m-1}(\textbf{x}) + \sum\limits_{k=1}^K \lambda_{m,k} 1(\textbf{x} \in R_{m,k})$.\\
+	        3. Output the classifier $sign\left[ F(\textbf{x})\right]$.
+	    }
+	}
+\end{center}
 
 \subsection{M-regression loss function}
 
