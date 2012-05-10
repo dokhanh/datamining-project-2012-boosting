@@ -16,8 +16,8 @@
 \usepackage{lmodern} %Type1-font for non-english texts and characters
 
 \usepackage[top=2.5cm, bottom=2cm, left=2cm, right=2cm]{geometry}
-\usepackage{icomma} % Permet l'utilisation de virgule comme séparateur décimal
-\usepackage{url} % Package pour ne pas avoir des problèmes avec des URL's
+\usepackage{icomma} % Permet l'utilisation de virgule comme sÃˆparateur dÃˆcimal
+\usepackage{url} % Package pour ne pas avoir des problÃ‹mes avec des URL's
 % Utiliser \url{}
 
 %% Packages for Graphics & Figures %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -243,7 +243,7 @@ We recognize that $d_m(\textbf{x})$ is in fact an empirical estimation of the qu
 
 \textbf{Experiments:} Here we compare the performance of these three algorithms on a same simulated dataset. The dataset is simulated following the following rules: $\textbf{x} \in \mathbb{R}^2$ follows uniform distribution in $(0, 1)^2$, and $y_i = 2*1((\textbf{x}_i^{(1)} - 0.5)^2 + (\textbf{x}_i^{(2)} - 0.5)^2 > 1/6) - 1$. The Bayes error is therefore $0$. We can see that the \textsl{Gentle AdaBoost} obtain the best performance in this experiment. The \textsl{Gentle AdaBoost} corresponds to two-degree optimization in function space (Newton-Raphson algorithm) while the \textsl{Discrete AdaBoost} corresponds to one-degree method. We can link this result to the dominating convergence rate of two-degree methods in numerical optimization.
 
-\subsection{$L(y, F(\textbf{x})) = (y - F(\textbf{x}))^2/2$}
+\subsection{Least-Square Boost}
 In this section, we will use least-square as the loss function. The updating terms of $F_m$ in the line 2(d) of our generic algorithm will be specifically derived. The least-square loss function is defined as: $L(y, F) = \dfrac{(y-F)^2}{2}$. Now, we can determine the negative gradient, or, the descent direction $d_m = -\dfrac{\partial{Q}}{\partial{\overline{F}}}\vert_{\overline{F} = F_{m-1}} = y - F_{m-1}$. If we apply line search for 2(c), it turns out that $\beta_m = c$. Indeed, with finite data, to do the line search is to find $\beta_m$ such that:
 \begin{align}
 	\beta_m  &= arg\min\limits_{\beta}\sum_{i=1}^{N}{Q(y_i, F_{m-1}(x_i) + \beta\overline{f_m})} \notag \\
@@ -269,7 +269,8 @@ So, with least-square loss function, the generic algorithm ends up the following
 \end{center}
 
 
-\subsection{$L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$}\label{LAD}
+\subsection{Least-Absolute-Deviation Boost}
+\label{LAD}
 \label{sec:LAD_treeboost}
 With $L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$, we choose $d_m^{(i)} = \dfrac{\partial Q}{\partial \overline{F}_i}\vert_{\overline{F} = \overline{F}_{m-1}} = sign(y_i - F_{m-1}(\textbf{x}_i)), \forall i = 1:N$. We can always follow the generic algorithm presented in \ref{boo_fun_sp} with all kinds of base classifiers. Here we discuss on how to adapt regression tree to our boosting algorithm, because it will be the only base classifier used in our experiments.
 
@@ -301,6 +302,7 @@ For the absolute loss function, according to \eqref{opt_LAD_local}, we have $\la
 \end{center}
 
 \subsection{M-regression loss function}
+\label{sec:m_treeboost}
 We consider here the Huber loss function, which is defined as:
 \begin{align}
 	L(y, F(\textbf{x})) = \left\{
@@ -310,8 +312,6 @@ We consider here the Huber loss function, which is defined as:
 				\end{array} 
 			\right., \delta\in\mathbb{R}^{+} \notag
 \end{align}
-
-<<<<<<< .mine
 
 Then, we have the negative gradient:
 \begin{align}
@@ -323,7 +323,7 @@ Then, we have the negative gradient:
 		\right., \forall i = 1:N\notag
 \end{align}
 
-As a significant parameter of the loss function, $\delta$ should be chosen considerately. Before going into detail, we should observe that $d_m^{(.)}$ is constrained by $\delta$. The meaning of using $\delta$ here is to remove outliers. Indeed, those points, which have big difference between target output $y$ and estimated output $F_{m-1}(\textbf{x})$, will be excluded from updating process. From now on, we should remark M-Regression's characteristic of resisting to long-tailed error distribution and outliers. The value of $\delta$ will be redetermined iteratively, based on the distribution of residuals $y-F^{*}$, with $F^{*}$ as the true target function. Normally, at $m^{th}$ iteration, we often choose $\delta = \delta_m$ as $\alpha$-quantile of current approximate absolute residual distribution $|y - F_{m-1}|$. Then, the factor is determined by $\delta_m = \text{quantile}_{\alpha}(|y - F_{m-1}|)$.
+As a significant parameter of the loss function, $\delta$ should be chosen considerately. Before going into detail, we should observe that $d_m^{(.)}$ is constrained by $\delta$. The meaning of using $\delta$ here is to remove strange "behaviors" off training phase. Indeed, those points, which have big difference between target output $y$ and estimated output $F_{m-1}(\textbf{x})$, will be excluded from updating process. From now on, we should remark M-Regression's characteristic of resisting to unwanted phenomenons,  such as long-tailed error distribution, misclassified samples and outliers. The value of $\delta$ will be redetermined iteratively, based on the distribution of residuals $y-F^{*}$, with $F^{*}$ as the true target function. Normally, at $m^{th}$ iteration, we often choose $\delta = \delta_m$ as $\alpha$-quantile of current approximate absolute residual distribution $|y - F_{m-1}|$. Then, the factor is determined by $\delta_m = \text{quantile}_{\alpha}(|y - F_{m-1}|)$.
 
 If we use regression trees as base classifiers, the results in \ref{sec:LAD_treeboost} could be exploited. 
 Let's consider $(R_{m,1}, R_{m,2},..., R_{m,K})$ as the partition of $\mathcal{X}$-space, determined by the regression tree at $m^{th}$ iteration. The updating equation then becomes $F_m = F_{m-1} + \sum\limits_{k=1}^{K}{\lambda_{m,k}1(\textbf{x}\in{R_{m,k}})}$ with
@@ -542,8 +542,49 @@ We derive the multi-class version of \textsl{Logit Boost} similarly as in two-cl
 \section{Experiments}
 
 \subsection{Experiments with simulated data}
+\textbf{Experiment 1:} here we want to compare the performance of all above boosting algorithms with a binary classification problem. For the methods in the same class (with the same loss function), we pick up the best one as this class' representative. In specific, we will take into account the following algorithms:
+\begin{itemize}
+	\item Least-Square TreeBoost
+	\item LAD TreeBoost
+	\item M-TreeBoost
+	\item Gentle AdaBoost
+	\item Logit Boost
+	\item L2-TreeBoost
+\end{itemize}
+All models will be learned and assessed with same datasets. The datasets are simulated with the following rules: $\textbf{x} \in \mathbb{R}^2$ follows uniform distribution in $(0, 1)^2$, and $y_i = 2*1((\textbf{x}_i^{(1)} - 0.5)^2 + (\textbf{x}_i^{(2)} - 0.5)^2 > 1/6) - 1$. The Bayes error is therefore $0$. We try to choose appropriate configuration so that our datasets would be rather balanced. Also, the generated datasets are "clean" because we don't add any noise into it in this experiment. Figure \ref{fig:simulated_data} depict the general form of our dataset.
+\begin{figure}[H]
+\centering
+\caption{Simulated Training Dataset}
+\includegraphics[width = 0.7\textwidth]{Figures/simulated_dataset}
+\label{fig:simulated_data}
+\end{figure}
+Firstly, with training phase, the training dataset consists of 500 samples, which are 2-dimensional vectors. Each sample is labeled by either -1 or 1. Also, we fix the number of iteration for every algorithm to 100.\\
+For testing phase, the Monte Carlo method is used to assess the performance of the algorithms. At each iteration, a new dataset of 100 samples is generated, and all algorithms will be applied. With each method, the final result is the mean of results gotten after 100 iterations. Also, we set the number of iterations as 100.
+\begin{figure}[H]
+\centering
+\caption{Comparison of Boosting Algorithms with Binary Classification}
+\includegraphics[width = 0.7\textwidth]{Figures/bin_class_comparison}
+\label{fig:bin_class_comparison}
+\end{figure}
+Figure \ref{fig:bin_class_comparison} shows the result of experiment 1. We could observe that the three algorithms: Gentle AdaBoost, Logit Boost and L2-TreeBoost perform the best. Their error rate curves don't clearly separated in the figure. They all ends up with less than $5\%$ error rate. The next two algorithms: M-TreeBoost and LS-TreeBoost also perform rather well, with the final error rate about $10\%$.  LAD TreeBoost perform the worst in this experiment.
+
+\textbf{Experiment 2:} We will conduct the same as experiment 1, except that the dataset is added $5\%$ and $10\%$ noise. Figure \ref{fig:bin_class_comparison_noise_5per} shows the result with 5\% noise. We could observe the same phenomenon as in experiment 1, in which, the algorithms are divided into three performance level. Gentle AdaBoost, Logit Boost and L2-TreeBoost continue perform the best, outweighs the other threes. The LAD-TreeBoost still performs the worst.
+We continue increase the noise level into 10\%, which result is shown in Figure \ref{fig:bin_class_comparison_noise_10per}. In this configuration, we clearly see the difference between M-TreeBoost and LS-TreeBoost. In section \ref{sec:m_treeboost}, we noticed M-Regression's ability of resisting to outliers and misclassified cases. It has been justified by this experiment. The M-TreeBoost performs far better than LS-TreeBoost in noisy case while keeping matchable performance in normal case.
+\begin{figure}[H]
+\centering
+\caption{Comparison of Boosting Algorithms with Binary Classification - With 5\% noise}
+\includegraphics[width = 0.7\textwidth]{Figures/bin_class_comparison_noise_5per}
+\label{fig:bin_class_comparison_noise_5per}
+\end{figure}
+\begin{figure}[H]
+\centering
+\caption{Comparison of Boosting Algorithms with Binary Classification - With 10\% noise}
+\includegraphics[width = 0.7\textwidth]{Figures/bin_class_comparison_noise_10per}
+\label{fig:bin_class_comparison_noise_10per}
+\end{figure}
 
 \subsection{Experiments with real data}
+In this section, we will compare the performance of algorithms by using real dataset. The UCI Wisconsin breast cancer dataset has been used in this experiment. The dataset consists of 683  samples. Each sample is labeled by either 2 (for having no cancer) or 4 (for having cancer). The explanatory 
 
 \section{Conclusion}
 
