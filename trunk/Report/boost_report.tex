@@ -10,6 +10,8 @@
 \usepackage[latin1]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{ae}
+\usepackage{algorithm} %to write pseudo-code
+\usepackage{algpseudocode} %to write pseudo-code
 
 \usepackage{lmodern} %Type1-font for non-english texts and characters
 
@@ -131,13 +133,14 @@ Put $Q(F) = \sum\limits_{i=1}^N L(y_i, F(\textbf{x}_i))$, we remark that $Q(F)$ 
     \left\lbrace f_m, c\right\rbrace = arg\min\limits_{f_m\in \mathcal{Q}_m, c\in \mathbb{R}_{+}} \| d_m - c.\overline{f_m}\|^2 \notag
 \end{align}
 in which $\overline{f_m}$ is the vector of values of $f_m$ at $(\textbf{x}_1,...,\textbf{x}_N)$. After that, we have to look for a coefficient $\beta_m$ so that, if $F_{m-1}$ is the function obtained at the precedent step, then $Q(F_m) \leq Q(F_{m-1})$ with $F_m = F_{m-1} + \beta_mf_m$. If we start with $F_0 = 0$ then we obtain at $M^{th}$ the additive form $F_M = \sum\limits_{m=1}^M \beta_mf_m \in \mathcal{F} = \sum\limits_{m=1}^M \mathcal{Q}_m$. We summary this generic algorithm in the following table.
+
 \begin{center}
 	\fbox{
 	    \parbox{0.9\textwidth}{
-	        \textbf{Algorithm 1: Generic algorithm of boosting}\\
+		\textbf{Generic Algorithm for Boosting}\\
 	        1. Start with $F_0(\textbf{x}) = 0$.\\
 	        2. Repeat for $m = 1,2,...,M$:\\
-	        (a) Search for a direction descent $d_m \in \mathbb{R}^N$ by some Newton-like numerical algorithm of optimization in $\mathbb{R}^N$.\\
+	        (a) Search for a descent direction $d_m \in \mathbb{R}^N$ by some Newton-like numerical algorithm of optimization in $\mathbb{R}^N$.\\
 	        (b) Solve $\left\lbrace f_m, c\right\rbrace = arg\min\limits_{f_m\in \mathcal{Q}_m, c\in \mathbb{R}_{+}} \| d_m - c.\overline{f_m}\|^2$. The least-square criterion is not mandatory.\\
 	        (c) Search for a coefficient $\beta_m$ so that $Q(F_{m-1} + \beta_mf_m) \leq Q(F_{m-1})$, a line-search strategy can be used.\\
 	        (d) $F_m = F_{m-1} + \beta_mf_m$.\\
@@ -145,6 +148,7 @@ in which $\overline{f_m}$ is the vector of values of $f_m$ at $(\textbf{x}_1,...
 	    }
 	}
 \end{center}
+
 
 In most cases, the direction of descent will be calculated from the gradient of $Q(\overline{F})$ at $\overline{F} = \overline{F}_{m-1}$ according to Newton-like optimization algorithms in $\mathbb{R}^N$:
 \begin{align}
@@ -238,9 +242,34 @@ We recognize that $d_m(\textbf{x})$ is in fact an empirical estimation of the qu
   	\label{loss_exp}
 \end{figure}
 
-\subsection{$L(y, F(\textbf{x})) = (y - F(\textbf{x}))^2$}
+\subsection{$L(y, F(\textbf{x})) = (y - F(\textbf{x}))^2/2$}
+In this section, we will use least-square as the loss function. The updating terms of $F_m$ in the line 2(d) of our generic algorithm will be specifically derived. The least-square loss function is defined as: $L(y, F) = \dfrac{(y-F)^2}{2}$. Now, we can determine the negative gradient, or, the descent direction $d_m = -\dfrac{\partial{Q}}{\partial{\overline{F}}}\vert_{\overline{F} = F_{m-1}} = y - F_{m-1}$. If we apply line search for 2(c), it turns out that $\beta_m = c$. Indeed, with finite data, to do the line search is to find $\beta_m$ such that:
+\begin{align}
+	\beta_m  &= arg\min\limits_{\beta}\sum_{i=1}^{N}{Q(y_i, F_{m-1}(x_i) + \beta\overline{f_m})} \notag \\
+	&= arg\min\limits_{\beta}\sum_{i=1}^{N}{\dfrac{(y_i - F_{m-1}(x_i) - \beta\overline{f_m})^2}{2}}\notag \\
+	&= arg\min\limits_{\beta}\sum_{i=1}^{N}{\dfrac{(d_m - \beta\overline{f_m})^2}{2}}\notag \\
+	&= arg\min\limits_{\beta}\| d_m - \beta\overline{f_m}\|^2 = c\notag
+\end{align}
+
+So, with least-square loss function, the generic algorithm ends up the following LS\_Boost algorithm
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{Least-Square Boost}\\
+		1. Start with $F_0(\textbf{x}) = 0$.\\
+		2. Repeat for $m = 1,2,...,M$:\\
+		(a) $\overline{y}_i = y_i - F_{m-1}(\textbf{x}_i), i=1:N$\\
+		(b) Solve $\left\lbrace f_m, \beta_m\right\rbrace = arg\min\limits_{\overline{f_m}\in \mathcal{Q}_m, \beta\in \mathbb{R}} \| \overline{y} - \beta\overline{f_m}\|^2$.\\
+		(c) $F_m(\textbf{x}) = F_{m-1}(\textbf{x}) + \beta_mf_m(\textbf{x})$.\\
+		3. Output the classifier $sign\left[ F(\textbf{x})\right]$.
+	}
+	}
+\end{center}
+
 
 \subsection{$L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$}
+\label{sec:LAD_treeboost}
 With $L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$, we choose $d_m^{(i)} = \dfrac{\partial Q}{\partial \overline{F}_i}\vert_{\overline{F} = \overline{F}_{m-1}} = sign(y_i - F_{m-1}(\textbf{x}_i)), \forall i = 1:N$. We can always follow the generic algorithm presented in \ref{boo_fun_sp} with all kinds of base classifiers. Here we discuss on how to adapt regression tree to our boosting algorithm, because it will be the only base classifier used in our experiments.
 
 Firstly, we remark that the coefficient $c > 0$ in the line 2(b) of our generic algorithm does not change fondamentally the properties of regression trees $f_m$; it suffices to get regression tree $f_m$ to approximate the direction $d_m$. A regression tree $f_m$ divide $\mathcal{X}$-space into $K$ disjoint subspace $R_{m,k}$ so that $\bigcup\limits_{k=1}^K R_{m,k} = \mathcal{X}$. For $\textbf{x}$ belonging to each of these areas, $f_m(\textbf{x})$ takes a value $\lambda_{m,k}$. We can rewrite $f_m(\textbf{x}) = \sum\limits_{k=1}^K \lambda_{m,k} 1(\textbf{x}\in R_{m,k})$. The constant $\beta_m$ in the line 2(c) changes these values $\lambda_{m,k}$ by a same way. Another method which gives a better optimization than line 2(c) is to modify all regression values $\lambda_{m,k}$ in this phase and not only the parameter $\beta_m$, that means:
@@ -271,6 +300,65 @@ For the absolute loss function, according to \eqref{opt_LAD_local}, we have $\la
 \end{center}
 
 \subsection{M-regression loss function}
+We consider here the Huber loss function, which is defined as:
+\begin{align}
+	L(y, F(\textbf{x})) = \left\{
+				\begin{array}{cl}
+					\frac{(y-F(\textbf{x}))^2}{2} & \quad \text{if $|y-F(\textbf{x})| \leq \delta$}\\
+					\delta(|y-F(\textbf{x})|-\delta/2) & \quad \text{if $|y-F(\textbf{x})| > \delta$}\\
+				\end{array} 
+			\right., \delta\in\mathbb{R}^{+} \notag
+\end{align}
+
+<<<<<<< .mine
+
+Then, we have the negative gradient:
+\begin{align}
+	d_m^{(i)} = -\dfrac{\partial{Q}}{\partial{\overline{F}_i}}\vert_{\overline{F} = F_{m-1}} = \left\{
+		\begin{array}{cl}
+			y_i-F_{m-1} & \quad \text{if $|y_i-F_{m-1}(\textbf{x}_i)| \leq \delta$}\\
+			\delta.\text{sign}(y_i-F_{m-1}(\textbf{x}_i)) & \quad \text{if $|y_i-F_{m-1}(\textbf{x}_i)| > \delta$}\\
+		\end{array}
+		\right., \forall i = 1:N\notag
+\end{align}
+
+As a significant parameter of the loss function, $\delta$ should be chosen considerately. Before going into detail, we should observe that $d_m^{(.)}$ is constrained by $\delta$. The meaning of using $\delta$ here is to remove outliers. Indeed, those points, which have big difference between target output $y$ and estimated output $F_{m-1}(\textbf{x})$, will be excluded from updating process. From now on, we should remark M-Regression's characteristic of resisting to long-tailed error distribution and outliers. The value of $\delta$ will be redetermined iteratively, based on the distribution of residuals $y-F^{*}$, with $F^{*}$ as the true target function. Normally, at $m^{th}$ iteration, we often choose $\delta = \delta_m$ as $\alpha$-quantile of current approximate absolute residual distribution $|y - F_{m-1}|$. Then, the factor is determined by $\delta_m = \text{quantile}_{\alpha}(|y - F_{m-1}|)$.
+
+If we use regression trees as base classifiers, the results in \ref{sec:LAD_treeboost} could be exploited. 
+Let's consider $(R_{m,1}, R_{m,2},..., R_{m,K})$ as the partition of $\mathcal{X}$-space, determined by the regression tree at $m^{th}$ iteration. The updating equation then becomes $F_m = F_{m-1} + \sum\limits_{k=1}^{K}{\lambda_{m,k}1(\textbf{x}\in{R_{m,k}})}$ with
+\begin{align}
+	\lambda_{m,k} =arg\min\limits_{\lambda}\sum\limits_{\textbf{x}_i\in{R_{m,k}}}{L(y_i, F_{m-1}(\textbf{x}_i + \lambda))} \notag
+\end{align}
+
+One approximation of $\lambda_{m,k}$ is given in [ref], which requires the median of the current residual $\tilde{r}_{m,k} = median_{\textbf{x}_i\in{R_{m,k}}}(\underbrace{y_i - F_{m-1}(\textbf{x}_i)}_{r_{m-1}(\textbf{x}_i)}), \forall{k}=1:K$. The approximate $\lambda_{m,k}, \forall{k}=1:K$ is then computed by:
+\begin{align}
+	\lambda_{m,k} = \tilde{r}_{m,k} + \frac{1}{N_{m,k}}\sum_{\textbf{x}_i\in{R_{m,k}}}sign(r_{m-1}(\textbf{x}_i) - \tilde{r}_{m,k}) \cdot min(\delta_m, |r_{m-1}(\textbf{x}_i) - \tilde{r}_{m,k}|) \notag
+\end{align}
+
+Now, we obtain an boosting algorithm using regression tree and Huber loss function, which is called M-TreeBoost
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{M-TreeBoost}\\
+	1. Start with $F_0(\textbf{x}) = 0$.\\
+	2. Repeat for $m = 1,2,...,M$:\\
+	(a) $r_{m-1}(\textbf{x}_i) = y_i - F_{m-1}(\textbf{x}_i), \forall i=1:N$.\\
+	(b) $\delta_m =\text{quantile}_\alpha{|r_{m-1}(\textbf{x}_i)|}, \forall i=1:N$.\\
+	(c) $\overline{y}_i = \left\{
+		\begin{array}{cl}
+			y_i-F_{m-1}(\textbf{x}_i) & \quad \text{if} |y_i-F_{m-1}(\textbf{x}_i)| \leq \delta_m \\
+			\delta_m.\text{sign}(y_i-F_{m-1}(\textbf{x}_i)) & \quad \text{if} |y_i-F_{m-1}(\textbf{x}_i)| > \delta_m\\
+		\end{array}\right.$\\
+	(d) $\{R_{m,k}\}_{k=1:K}$ is the $K$-terminal node tree regression of $\overline{y}_i$ on $\textbf{x}_i, i = 1:N$.\\
+	(e) $\tilde{r}_{m,k} = median_{\textbf{x}_i\in{R_{m,k}}}({r_{m-1}(\textbf{x}_i)})$\\
+	(f) $\lambda_{m,k} = \tilde{r}_{m,k} + \frac{1}{N_{m,k}}\sum_{\textbf{x}_i\in{R_{m,k}}}sign(r_{m-1}(\textbf{x}_i) - \tilde{r}_{m,k}) \cdot min(\delta_m, |r_{m-1}(\textbf{x}_i) - \tilde{r}_{m,k}|)$.\\
+	(g) $F_m(\textbf{x}) = F_{m-1}(\textbf{x}) + \sum\limits_{k=1}^K \lambda_{m,k} 1(\textbf{x} \in R_{m,k})$.\\
+	3. Output the classifier $sign\left[ F(\textbf{x})\right]$.
+	}
+	}
+\end{center}
+
 
 \subsection{Negative Binomial log-likelihood loss function}
 The binomial log-likelihood loss function is $L(y, F(\textbf{x})) = \log\left( 1 + e^{2F(\textbf{x})}\right) - 2y^{*}F(\textbf{x})$ in which $y^{*} = \dfrac{y+1}{2}$. In Bernouilli model, the probability that $y^{*}$ taking value $1$ is $p(\textbf{x}) = \dfrac{e^{F(\textbf{x})}}{e^{F(\textbf{x})} + e^{-F(\textbf{x})}}$. The negative log-likelihood is calculated by:
@@ -312,6 +400,26 @@ In the derivation of this \textsl{Logit Boost} algorithm, we comment that althou
 \end{figure}
 
 \subsection{$L(y, F(\textbf{x})) = \log(1+e^{-2yF(\textbf{x})})$}
+For the negative binomial log-likelihood loss function $L(y, F) = log(1+e^{-2yF})$, we obtain the descent direction $d_m = -\dfrac{\partial{Q}}{\partial{\overline{F}}}\vert_{\overline{F} = F_{m-1}} = \dfrac{2y}{1+e^{2yF_{m-1}}}$. If regression trees are used as base classifiers, we can also inherit results from \ref{sec:LAD_treeboost}, in which the $\lambda_{m,k}$ is now approximated as:
+\begin{align}
+	\lambda_{m,k} = \frac{\sum\limits_{\textbf{x}_i\in{R_{m,k}}}d_{m}^{(i)}}{\sum\limits_{\textbf{x}_i\in{R_{m,k}}}|d_{m}^{(i)}|(2 - |d_{m}^{(i)}|)} \notag
+\end{align}
+And, the boosting algorithm is described as in Algorithm \ref{algo:l2_treeboost}
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{L2-TreeBoost}\\
+	1. Start with $F_0(\textbf{x}) = 0$.\\
+	2. Repeat for $m = 1,2,...,M$:\\
+	(a) $\overline{y}_i = \dfrac{2y_i}{1+e^{2y_iF(\textbf{x}_i)}}$.\\
+	(b)$\{R_{m,k}\}_{k=1:K}$ is the $K$-terminal node tree regression of $\overline{y}_i$ on $\textbf{x}_i, i = 1:N$.\\
+	(c) $\lambda_{m,k} = \dfrac{\sum\limits_{\textbf{x}_i\in{R_{m,k}}}\overline{y}_i}{\sum\limits_{\textbf{x}_i\in{R_{m,k}}}|\overline{y}_i|(2 - |\overline{y}_i|)}$\\
+	(d) $F_m(\textbf{x}) = F_{m-1}(\textbf{x}) + \sum\limits_{k=1}^K \lambda_{m,k} 1(\textbf{x} \in R_{m,k})$.\\
+	3. Output the classifier $sign\left[ F(\textbf{x})\right]$.
+	}
+	}
+\end{center}
 
 \section{Multi-class classification and some generalizations}
 Now
