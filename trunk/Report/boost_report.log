@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.6.5)  10 MAY 2012 05:08
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.6.5)  10 MAY 2012 14:16
 entering extended mode
 **boost_report.tex
 
@@ -434,21 +434,37 @@ Package pdftex.def Info: loss_exp.jpg used on input line 236.
 Underfull \vbox (badness 1199) has occurred while \output is active []
 
  [5]
-Underfull \vbox (badness 1122) has occurred while \output is active []
+[6 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/loss_ex
+p.jpg>]
+Overfull \hbox (17.212pt too wide) in paragraph at lines 287--289
+\T1/lmr/m/n/12 If we put $\OML/lmm/m/it/12 w[] \OT1/lmr/m/n/12 = \OML/lmm/m/it/
+12 p[]\OT1/lmr/m/n/12 ([][])(1 \OMS/lmsy/m/n/12   \OML/lmm/m/it/12 p[]\OT1/lmr/
+m/n/12 ([][]))$ \T1/lmr/m/n/12 on the trai-ning data, we have $\OML/lmm/m/it/12
+ d[]\OT1/lmr/m/n/12 ([]) = []$\T1/lmr/m/n/12 .
+ []
 
- [6 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/loss_e
-xp.jpg>]
-[7]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7]
+<comp_pop_nonPop.jpg, id=45, 668.4975pt x 395.4775pt>
+File: comp_pop_nonPop.jpg Graphic file (type jpg)
+
+<use comp_pop_nonPop.jpg>
+Package pdftex.def Info: comp_pop_nonPop.jpg used on input line 309.
+(pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
+ [8 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/comp_p
+op_nonPop.jpg>] [9]
 (C:\Users\Khanh\workspace\coursTelecomApp\project\svn-travail\Report\boost_repo
 rt.aux) ) 
 Here is how much of TeX's memory you used:
- 3967 strings out of 494053
- 52107 string characters out of 3148604
- 120808 words of memory out of 3000000
- 7147 multiletter control sequences out of 15000+200000
+ 3974 strings out of 494053
+ 52253 string characters out of 3148604
+ 120826 words of memory out of 3000000
+ 7153 multiletter control sequences out of 15000+200000
  78105 words of font info for 64 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 28i,14n,43p,1284b,281s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 28i,14n,43p,1284b,320s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Program 
 Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX 2.9/font
 s/enc/dvips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm
@@ -468,9 +484,9 @@ es/MiKTeX 2.9/fonts/type1/public/lm/lmro12.pfb><C:/Program Files/MiKTeX 2.9/fon
 ts/type1/public/lm/lmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/l
 m/lmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy8.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on boost_report.pdf (7 pages, 325030 bytes).
+Output written on boost_report.pdf (9 pages, 355719 bytes).
 PDF statistics:
- 110 PDF objects out of 1000 (max. 8388607)
+ 117 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
