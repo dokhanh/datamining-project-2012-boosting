@@ -157,6 +157,13 @@ In most cases, the direction of descent will be calculated from the gradient of 
 After having found $f_m$, the coefficient $\beta_m$ is often evaluated by line-search procedure $\beta_m = arg\min\limits_{\beta \in \mathbb{R}} Q(F_{m-1}+\beta f_m)$ in which $F_{m-1}$ and $f_m$ are functions from $\mathcal{X}$ to $\mathcal{Y}$. In the next sections, we will present and explain boosting algorithms following the same paradigm described above.
 
 \subsection{$L(y, F(\textbf{x})) = e^{-yF(\textbf{x})}$} \label{exp_loss_part}
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{loss_exp.jpg}
+  	\caption{Error rates corresponding to \textsl{Discrete AdaBoost}, \textsl{Real AdaBoost} and \textsl{Gentle AdaBoost}.}
+  	\label{loss_exp}
+\end{figure}
+
 This loss function is used in some of the most popular boosting algorithms like \textsl{Discrete AdaBoost} or \textsl{Real AdaBoost}; we use it as an example for our model. Firstly the direction descent at $m^{th}$ step $d_m = \nabla_{\overline{F}} Q(\overline{F})\vert_{\overline{F} = \overline{F}_{m-1}} = \left( y_ie^{-y_iF_{m-1}(x_i)}\right)_{i=1:N}$. Following 2(b), we look for $f_m \in \mathcal{Q}_m$ and $c > 0$ which minimize:
 \begin{align}
     S(f_m, c) = \sum\limits_{i=1}^N \left( y_ie^{-y_iF_{m-1}(\textbf{x}_i)} - cf_m(\textbf{x}_i)\right)^2 \label{exp_loss_approcher}
@@ -236,12 +243,6 @@ We recognize that $d_m(\textbf{x})$ is in fact an empirical estimation of the qu
 
 \textbf{Experiments:} Here we compare the performance of these three algorithms on a same simulated dataset. The dataset is simulated following the following rules: $\textbf{x} \in \mathbb{R}^2$ follows uniform distribution in $(0, 1)^2$, and $y_i = 2*1((\textbf{x}_i^{(1)} - 0.5)^2 + (\textbf{x}_i^{(2)} - 0.5)^2 > 1/6) - 1$. The Bayes error is therefore $0$. We can see that the \textsl{Gentle AdaBoost} obtain the best performance in this experiment. The \textsl{Gentle AdaBoost} corresponds to two-degree optimization in function space (Newton-Raphson algorithm) while the \textsl{Discrete AdaBoost} corresponds to one-degree method. We can link this result to the dominating convergence rate of two-degree methods in numerical optimization.
 
-\begin{figure}[ht]\centering
-  	\includegraphics[width=0.7\textwidth]{loss_exp.jpg}
-  	\caption{Error rates corresponding to \textsl{Discrete AdaBoost}, \textsl{Real AdaBoost} and \textsl{Gentle AdaBoost}.}
-  	\label{loss_exp}
-\end{figure}
-
 \subsection{$L(y, F(\textbf{x})) = (y - F(\textbf{x}))^2/2$}
 In this section, we will use least-square as the loss function. The updating terms of $F_m$ in the line 2(d) of our generic algorithm will be specifically derived. The least-square loss function is defined as: $L(y, F) = \dfrac{(y-F)^2}{2}$. Now, we can determine the negative gradient, or, the descent direction $d_m = -\dfrac{\partial{Q}}{\partial{\overline{F}}}\vert_{\overline{F} = F_{m-1}} = y - F_{m-1}$. If we apply line search for 2(c), it turns out that $\beta_m = c$. Indeed, with finite data, to do the line search is to find $\beta_m$ such that:
 \begin{align}
@@ -268,7 +269,7 @@ So, with least-square loss function, the generic algorithm ends up the following
 \end{center}
 
 
-\subsection{$L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$}
+\subsection{$L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$}\label{LAD}
 \label{sec:LAD_treeboost}
 With $L(y, F(\textbf{x})) = \vert y - F(\textbf{x})\vert$, we choose $d_m^{(i)} = \dfrac{\partial Q}{\partial \overline{F}_i}\vert_{\overline{F} = \overline{F}_{m-1}} = sign(y_i - F_{m-1}(\textbf{x}_i)), \forall i = 1:N$. We can always follow the generic algorithm presented in \ref{boo_fun_sp} with all kinds of base classifiers. Here we discuss on how to adapt regression tree to our boosting algorithm, because it will be the only base classifier used in our experiments.
 
@@ -361,6 +362,13 @@ Now, we obtain an boosting algorithm using regression tree and Huber loss functi
 
 
 \subsection{Negative Binomial log-likelihood loss function}
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{comp_pop_nonPop.jpg}
+  	\caption{Comparison of the performance of population and non-population version of \textsl{Logit Boost} algorithm on simulated data.}
+  	\label{comp_pop_nonPop}
+\end{figure}
+
 The binomial log-likelihood loss function is $L(y, F(\textbf{x})) = \log\left( 1 + e^{2F(\textbf{x})}\right) - 2y^{*}F(\textbf{x})$ in which $y^{*} = \dfrac{y+1}{2}$. In Bernouilli model, the probability that $y^{*}$ taking value $1$ is $p(\textbf{x}) = \dfrac{e^{F(\textbf{x})}}{e^{F(\textbf{x})} + e^{-F(\textbf{x})}}$. The negative log-likelihood is calculated by:
 \begin{align}
     L(y, F(\textbf{x})) &= -y^{*}\log p(\textbf{x}) - (1-y^{*})\log(1-p(\textbf{x})) \notag \\
@@ -391,13 +399,7 @@ If we put $w_i = p_m(\textbf{x}_i)(1-p_m(\textbf{x}_i))$ on the training data, w
 
 In the derivation of this \textsl{Logit Boost} algorithm, we comment that although $\textbf{x}_i = \textbf{x}$, the quantity $p_m(\textbf{x}_i)(1 - p_m(\textbf{x}_i))$ is not constant. Indeed, in our implementation $p_m(\textbf{x}_i)$ depends on $F_{m-1}(\textbf{x}_i)$ with parameterization by $i=1:N$ and not by $\textbf{x}$. The interpretation of the population version is, although all $F_m$ and $f_m$ is calculated on $\{ \textbf{x}_i\}_{i=1:N}$, their right parameterization in function space is by $\textbf{x} \in \mathcal{X}$ and not by $i=1:N$. The vector $d_m$ parameterized by $\textbf{x} \in \mathcal{X}$ may be easier to be used in regression of function $f_m$. This is an advantage of the point of view that considers boosting as an optimization in the function space.
 
-\textbf{Comparison between population and non-population version.} There exists a \textbf{non-population version} of \textsl{Logit Boost} that consists on doing regression of $f_m$ \textbf{without weights} $w$. We can derive it by parameterizing vector $d_m$ by $d_m^{(i)}\vert_{i=1:N}$. We use the same simulated dataset than one used in \ref{exp_loss_part} to compare these two versions. The results in Fig. \ref{comp_pop_nonPop} prove the good performance of population version compared to the non-population one.
-
-\begin{figure}[ht]\centering
-  	\includegraphics[width=0.7\textwidth]{comp_pop_nonPop.jpg}
-  	\caption{Comparison of the performance of population and non-population version of \textsl{Logit Boost} algorithm on simulated data.}
-  	\label{comp_pop_nonPop}
-\end{figure}
+\textbf{Comparison between population and non-population versions.} There exists a \textbf{non-population version} of \textsl{Logit Boost} that consists on doing regression of $f_m$ \textbf{without weights} $w$. We can derive it by parameterizing vector $d_m$ by $d_m^{(i)}\vert_{i=1:N}$. We use the same simulated dataset than one used in \ref{exp_loss_part} to compare these two versions. The results in Fig. \ref{comp_pop_nonPop} prove the good performance of population version compared to the non-population one.
 
 \subsection{$L(y, F(\textbf{x})) = \log(1+e^{-2yF(\textbf{x})})$}
 For the negative binomial log-likelihood loss function $L(y, F) = log(1+e^{-2yF})$, we obtain the descent direction $d_m = -\dfrac{\partial{Q}}{\partial{\overline{F}}}\vert_{\overline{F} = F_{m-1}} = \dfrac{2y}{1+e^{2yF_{m-1}}}$. If regression trees are used as base classifiers, we can also inherit results from \ref{sec:LAD_treeboost}, in which the $\lambda_{m,k}$ is now approximated as:
@@ -422,13 +424,120 @@ And, the boosting algorithm is described as in Algorithm \ref{algo:l2_treeboost}
 \end{center}
 
 \section{Multi-class classification and some generalizations}
-Now
+In this part, we present some generalizations of two-class classification algorithms to the case of multi-classes. In a multi-class classification problem, there are $J > 2$ labels for each line of explanatory variables $\textbf{x}$, denoted by $1,2,...,J$. The response variable $y$ is no longer a vector $\{y_i\}_{i=1:N}$ but a matrix $\{y_{i,j}\}_{1 \leq i \leq N, 1\leq j \leq J}$ defined by:
+\begin{align}
+    y_{i,j} = \left\lbrace
+    \begin{array}{l l}
+    	1 & \quad \text{ if label of $\textbf{x}_i$ is $j$,}\\
+    	-1 & \quad \text{ if otherwsise}\\
+	\end{array} \right. \notag
+\end{align}
+If we combine the explanatory variables $\textbf{x}$ with each column $y(:, j)$ of $y$, we will obtain $J$ separate two-class classification problems. The algorithms for multi-class case will be based on these $J$ problems that we have tried to resolve in the precedent parts of this report.
+
+Another advantage of this representation of $y$ as a matrix $N\times J$ rather than as a $N$-vector $\in \{1,2,...,J\}^N$ is that we can use it (or some of its variants) to solve more general problems. Schapire, R.E. \& Singer, Y. in \cite{SchaAndSin1998} discussed about some of these generalizations, for example multi-labels problem (in which each $\textbf{x}$-data can corresponds to more than one labels), and label-ranking problem (in which we try to assess a rank on all labels so that the first one is the most likely to be a label of data $\textbf{x}$). We also realize that the methods presented below can be adapted to resolve multi-label problems, because that only consists on deciding value of $y_{i,j}$ for $i=1,...,N$ and $j=1,...,J$ which is also the goal of multi-class problem. However, in scope of this report, we restrict our discussion inside the multi-single class framework.
 
 \subsection{A traditional approach}
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{comp_MH.jpg}
+  	\caption{Comparison of the performances of \textsl{AdaBoost.MH} using $6$ two-class boosting methods, experiments on simulated data with $0 \%$ Bayes error.}
+  	\label{comp_MH}
+\end{figure}
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{comp_MH1.jpg}
+  	\caption{Comparison of the performances of \textsl{AdaBoost.MH} using $6$ two-class boosting methods, experiments on simulated data with $5 \%$ Bayes error.}
+  	\label{comp_MH1}
+\end{figure}
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{comp_MH2.jpg}
+  	\caption{Comparison of the performances of \textsl{AdaBoost.MH} using $6$ two-class boosting methods, experiments on simulated data with $10 \%$ Bayes error.}
+  	\label{comp_MH2}
+\end{figure}
+
+The \textsl{One-Against-All} strategy consists on resolve these $J$ classification problems (described above) separately, then for each data $\textbf{x}_i$, we choose the result of the problem in which the score of $\textbf{x}$ is the highest. The \textsl{AdaBoost.MH} algorithm is formalized in the following table.
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{AdaBoost.MH for multi classes}\\
+	        1. Construct response variables $y$ under suitable form ($N\times J$-matrix) using \textsl{One-Agaisnt-All} strategy.\\
+	        2. For $j=1,...,J$, we output a boosting classifier $F_j$ for problem $P_j$.\\
+	        3. Label of $\textbf{x} = arg\max\limits_{1\leq j \leq J} F_j(\textbf{x})$.
+	    }
+	}
+\end{center}
+
+\textbf{Experiments:} We can use all two-class boosting methods in the line $2$ of the algorithm. Here we use successively \textsl{GentleBoost}, \textsl{LS Boost}, \textsl{LAD TreeBoost}, \textsl{M TreeBoost}, \textsl{Logit Boost} and \textsl{L2 TreeBoost} and compare their performance in multi-class framework on simulated data. The data of $J$ classes is simulated following the rules: $\textbf{x}_i$ is chosen uniformly in $\left[ 0, 1\right]^2$, $r_i^2$ is the squared distance from $\textbf{x}_i$ to $(1/2, 1/2)$, $\textbf{x}_i$ corresponds to label $j$ if $\dfrac{j-1}{J} \leq \pi r_i^2 < \dfrac{j}{J}, j = 1,2,...,J$. We take $J = 4$ and the Bayes error to be $0 \%$, $5 \%$ and $10 \%$. The results in Fig. \ref{comp_MH} , Fig. \ref{comp_MH1} and Fig. \ref{comp_MH2} show that the performance of \textsl{AdaBoost.MH} is the best when combining \textsl{AdaBoost.MH} with \textsl{Gentle Boost}, \textsl{Logit Boost} and \textsl{L2 TreeBoost}.
 
 \subsection{Some generalization of two-class algorithms}
 
-\subsection{Other generalizations}
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{multi_comp0.jpg}
+  	\caption{Multi-class classification on simulated data, $J = 4$, Bayes error $0\%$.}
+  	\label{multi_comp0}
+\end{figure}
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{multi_comp1.jpg}
+  	\caption{Multi-class classification on simulated data, $J = 4$, Bayes error $5\%$.}
+  	\label{multi_comp1}
+\end{figure}
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{multi_comp2.jpg}
+  	\caption{Multi-class classification on simulated data, $J = 4$, Bayes error $10\%$.}
+  	\label{multi_comp2}
+\end{figure}
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{multi_comp3.jpg}
+  	\caption{Multi-class classification on simulated data, $J = 6$, Bayes error $0\%$.}
+  	\label{multi_comp3}
+\end{figure}
+
+Some of two-class algorithms have their generalizations in multi-class case. In this section, we present the usage of the negative Binomial likelihood loss function in multi-class framework.
+\begin{align}
+    L(y, F(\textbf{x})) = -\sum\limits_{j=1}^J y_j^{*}\log p_j(\textbf{x}) \notag
+\end{align}
+in which $p_j(\textbf{x}) = \dfrac{e^{F_j(\textbf{x})}}{\sum\limits_{l=1}^J e^{F_l(\textbf{x})}}, j = 1:J$.
+
+We derive the multi-class version of \textsl{Logit Boost} similarly as in two-class case in taking $d_m$ to be Newton-Raphson steps by a \textbf{population version} way (parameterize $d_m$ by $\textbf{x}$). If instead, we only take $d_m$ to be the gradient in a parameterization by $i$ (\textbf{non-population version}) and then process the line-search via regression trees like what we have explained in \ref{LAD}, we obtain \textsl{Lk TreeBoost} algorithm. These two algorithms are summarized below.
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{LogitBoost for $J$ classes}\\
+	        1. Start with weights $w_{ij} = 1/N, i = 1:N, j = 1:J, F_j(\textbf{x}) = 0$ and $p_j(\textbf{x}) = 1/J, \forall j = 1:J$.\\
+	        2. Repeat for $m = 1,2,...,M$:\\
+	        (a) Repeat for $j=1,...,J$:\\
+	        i. Compute $z_{ij} = \dfrac{y_{ij}^{*} - p_j(\textbf{x}_i)}{p_j(\textbf{x}_i)(1 - p_j(\textbf{x}_i))}$ and $w_{ij} = p_j(\textbf{x}_i)(1 - p_j(\textbf{x}_i))$.\\
+	        ii. Fit the function $f_{mj}(\textbf{x})$ by a weighted least-squares regression of $z_{ij}$ to $\textbf{x}_i$ with weights $w_{ij}$.\\
+	        (b) Set $f_{mj}(\textbf{x}) \leftarrow \dfrac{J-1}{J}\left( f_{mj}(\textbf{x}) - \dfrac{1}{J}\sum\limits_{k=1}^J f_{mk}(\textbf{x})\right)$.\\
+	        (c) Update $p_j(\textbf{x})$ via $F_k(\textbf{x}), k = 1:J$.\\
+	        3. Output the classifier $arg\max\limits_{j=1:J} F_j(\textbf{x})$.
+	    }
+	}
+\end{center}
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{Lk TreeBoost for $J$ classes}\\
+	        1. Start with $F_j(\textbf{x}) = 0, \forall j = 1:J$.\\
+	        2. Repeat for $m = 1,2,...,M$:\\
+	        (a) Update $p_j(\textbf{x})$ via $F_j(\textbf{x}), j = 1:J$.\\
+	        (b) Repeat for $j=1,...,J$:\\
+	        i. Compute $z_{ij} = y_{ij}^{*} - p_j(\textbf{x}_i)$.\\
+	        ii. Fit regression tree $\{ R_{kjm}\}_{k=1:K}$ a $K$-terminal node from the training $\{ z_{ij}, x_i\}_{i=1:N}$.\\
+	        iii. Take $\lambda_{kjm} = \dfrac{J-1}{J} \dfrac{\sum\limits_{\textbf{x}_i \in R_{kjm}} z_{ij}}{\sum\limits_{\textbf{x}_i \in R_{kjm}} \vert z_{ij}\vert (1 - \vert z_{ij}\vert)}$, $k = 1:K$.\\
+	        iv. $F_{jm}(\textbf{x}) = F_{j,m-1}(\textbf{x}) + \sum\limits_{k=1}^K \lambda_{kjm} 1(\textbf{x} \in R_{kjm})$.\\
+	        3. Output the classifier $ arg\max\limits_{j=1:J} F_j(\textbf{x})$.
+	    }
+	}
+\end{center}
+
+\textbf{Experiments:} We use the same simulated multi-class dataset with $J = 4$ and Bayes error is $0\%$, $5\%$ and $10\%$. The results are shown in Fig. \ref{multi_comp0}, \ref{multi_comp1} and \ref{multi_comp2}. With $J=4$, we see that the two generalizations of negative binomial loss function algorithms in multi-class case perform better than all versions of \textsl{AdaBoost MH}. But an disadvantage of \textsl{Logit Boost for J classes}, as mentioned in \cite{boost} and \cite{trebst}, is the numerical instability when one of weights $w(\textbf{x}) = p(\textbf{x})(1 - p(\textbf{x}))$ tends to zero. Indeed, when we try with $J=6$, the result in Fig. \ref{multi_comp3} shows that \textsl{Logit Boost} encounters a numerical problem. In this experiment, \textsl{AdaBoost MH} performs the best among these three algorithms.
 
 \section{Experiments}
 
