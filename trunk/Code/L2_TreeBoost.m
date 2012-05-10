@@ -4,7 +4,7 @@ function trees = L2_TreeBoost(xtrain, ytrain, M)
 
     N = size(xtrain, 1);
     F = zeros(N, M);
-    trees = cell(M, 3);
+    trees = cell(M, 2);
 %     trees{1, 3} = (1/2)*log((1+ytrain)./(1-ytrain));
     for m = 1:M
         if (m > 1)
