@@ -584,7 +584,23 @@ We continue increase the noise level into 10\%, which result is shown in Figure 
 \end{figure}
 
 \subsection{Experiments with real data}
-In this section, we will compare the performance of algorithms by using real dataset. The UCI Wisconsin breast cancer dataset has been used in this experiment. The dataset consists of 683  samples. Each sample is labeled by either 2 (for having no cancer) or 4 (for having cancer). The explanatory 
+\textbf{Experiment 1:} In this part, we will compare the performance of two-class classification boosting algorithms with real dataset. The UCI Wisconsin breast cancer dataset has been used in this experiment. The dataset consists of 683  samples. Each sample is labeled by either 2 (for having no cancer) or 4 (for having cancer). The explanatory vectors have 9 dimensions: Clump Thickness, Uniformity of Cell Size, Uniformity of Cell Shape, Marginal Adhesion, Single Epithelial Cell Size, Bare Nuclei, Bland Chromatin, Normal Nucleoli and Mitoses. Each feature takes value from 1-10.
+\begin{figure}[H]
+\centering
+\caption{Comparison of Boosting Algorithms with UCI Wisconsin Breast Cancer Dataset}
+\includegraphics[width = 0.7\textwidth]{Figures/wbc}
+\label{fig:wbc}
+\end{figure}
+We use the 5-fold cross validation and obtain the results depicted in Figure \ref{fig:wbc}. The most interesting part of the result is the stunning performance of LS-Boost. While performing "normally with simulated data, the LS-Boost achieve the best error rate in the test. LAD TreeBoost get highest error rate as usual. The three algorithms Gentle AdaBoost, Logit Boost and L2-TreeBoost still have similar result, like using simulated data.
+
+\textbf{Experiment 2:} We now continue with assessing multi-class classification boosting algorithms with real dataset. We used the UCI Wine Quality dataset in this part. The dataset has 1599 samples. Each samples is labeled from 0-10, corresponding to its quality. However, the database just contains   labels from 3-8, which give the total number of six classes. The explanatory vectors have 11 dimensions: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates and alcohol. Each feature takes real value.
+\begin{figure}[H]
+\centering
+\caption{Comparison of Multi-class Boosting Algorithms with UCI Wine Quality Dataset}
+\includegraphics[width = 0.7\textwidth]{Figures/wine_quality}
+\label{fig:wine_quality}
+\end{figure}
+We use the 5-fold cross validation and obtain the results depicted in Figure \ref{fig:wine_quality}. We roughly obtain them same result compared to simulated data. The AdaBoostMH achieve the best error rate, meanwhile, the \textit{Logit Boost for J class} still encounters numerical problem.
 
 \section{Conclusion}
 
