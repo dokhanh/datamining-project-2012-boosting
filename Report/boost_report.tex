@@ -152,7 +152,7 @@ In most cases, the direction of descent will be calculated from the gradient of 
 \end{align}
 After having found $f_m$, the coefficient $\beta_m$ is often evaluated by line-search procedure $\beta_m = arg\min\limits_{\beta \in \mathbb{R}} Q(F_{m-1}+\beta f_m)$ in which $F_{m-1}$ and $f_m$ are functions from $\mathcal{X}$ to $\mathcal{Y}$. In the next sections, we will present and explain boosting algorithms following the same paradigm described above.
 
-\subsection{$L(y, F(\textbf{x})) = e^{-yF(\textbf{x})}$}
+\subsection{$L(y, F(\textbf{x})) = e^{-yF(\textbf{x})}$} \label{exp_loss_part}
 This loss function is used in some of the most popular boosting algorithms like \textsl{Discrete AdaBoost} or \textsl{Real AdaBoost}; we use it as an example for our model. Firstly the direction descent at $m^{th}$ step $d_m = \nabla_{\overline{F}} Q(\overline{F})\vert_{\overline{F} = \overline{F}_{m-1}} = \left( y_ie^{-y_iF_{m-1}(x_i)}\right)_{i=1:N}$. Following 2(b), we look for $f_m \in \mathcal{Q}_m$ and $c > 0$ which minimize:
 \begin{align}
     S(f_m, c) = \sum\limits_{i=1}^N \left( y_ie^{-y_iF_{m-1}(\textbf{x}_i)} - cf_m(\textbf{x}_i)\right)^2 \label{exp_loss_approcher}
@@ -191,7 +191,7 @@ Now we extend the subset $\mathcal{Q}_m$ to contain $f_m$ of real values and not
 \end{align}
 In order to calculate exactly $d_m$ as an estimate of some added regression function $f_m$'s values, we remark that in $(\textbf{x}_i, y_i)$, there may be many $\textbf{x}_i$ taking a same values, so $(F(\textbf{x}_i))_{i=1:N}$ and then $d_m$ may not be real vectors in $\mathbb{R}^N$. By simplicity, we parameterize $d_m$ by $\textbf{x}$ (which are different values in $(\textbf{x}_i)_{i=1:N}$) and not by $i = 1:N$. We have:
 \begin{align}
-    d_m(\textbf{x}) = arg\min\limits_{d(\textbf{x}) \in \mathbb{R}} \sum\limits_{\textbf{x}_i = \textbf{x}} e^{-y_i(F_{m-1}(\textbf{x}) + d(\textbf{x}))} \notag
+    d_m(\textbf{x}) = arg\min\limits_{d(\textbf{x}) \in \mathbb{R}} \sum\limits_{\textbf{x}_i = \textbf{x}} e^{-y_i(F_{m-1}(\textbf{x}_i) + d(\textbf{x}))} \notag
 \end{align}
 We imply that $d_m(\textbf{x}) = \dfrac{1}{2} \log\left( \dfrac{\sum\limits_{\textbf{x}_i = \textbf{x}, y_i = 1} w_i}{\sum\limits_{\textbf{x}_i = \textbf{x}, y_i = -1} w_i}\right)$. We do not use the least-square criterion to find a regression function in $\mathcal{Q}_m$ that approximates $d_m$ (line 2(b) of the Generic Algorithm). Instead, we use a comment that, $d_m(\textbf{x})$ is in fact an empirical estimation of the quantity $\dfrac{1}{2} \log\left( \dfrac{\mathbb{P}_w(y=1\vert \textbf{x})}{\mathbb{P}_w(y=-1\vert \textbf{x})}\right)$ after having trained $\textbf{x}$ and $y$ on training set $(\textbf{x}_i, y_i)_{i=1:N}$ with weights $w_i, i = 1,...,N$. The coefficient $\beta_m$ is taken $1$. We have the following \textsl{Real AdaBoost} algorithm.
 
@@ -212,7 +212,7 @@ We imply that $d_m(\textbf{x}) = \dfrac{1}{2} \log\left( \dfrac{\sum\limits_{\te
 The last algorithm that we want to present in this section is \textsl{Gentle AdaBoost}. This algorithm use $\beta_m = 1$ but $d_m$ is not calculated from a direct optimization but from the stepping of Newton-Raphson algorithm. Like in \textsl{Real AdaBoost}, we parameterize $d_m$ not by $i=1:N$ but by $\textbf{x}$ which are the differents values in $(\textbf{x}_i)_{i=1:N}$. We note that the algorithms with such parameterization of $d_m$ is called \textbf{population version}. More precisely,
 \begin{align}
     d_m(\textbf{x}) &= -\left( \dfrac{\partial^2 Q}{\partial F(\textbf{x})^2}\right)^{-1}\dfrac{\partial Q}{\partial F(\textbf{x})} \vert_{F(\textbf{x}) = F_{m-1}(\textbf{x})} \notag \\
-    &= \dfrac{\sum\limits_{\textbf{x}_i = \textbf{x}} y_ie^{-y_iF(\textbf{x})}}{\sum\limits_{\textbf{x}_i = \textbf{x}} e^{-y_iF(\textbf{x})}} = \dfrac{\sum\limits_{\textbf{x}_i = \textbf{x}} w_iy_i}{\sum\limits_{\textbf{x}_i = \textbf{x}} w_i} \notag
+    &= \dfrac{\sum\limits_{\textbf{x}_i = \textbf{x}} y_ie^{-y_iF(\textbf{x}_i)}}{\sum\limits_{\textbf{x}_i = \textbf{x}} e^{-y_iF(\textbf{x}_i)}} = \dfrac{\sum\limits_{\textbf{x}_i = \textbf{x}} w_iy_i}{\sum\limits_{\textbf{x}_i = \textbf{x}} w_i} \notag
 \end{align}
 We recognize that $d_m(\textbf{x})$ is in fact an empirical estimation of the quantity $\mathbb{E}_w(y\vert \textbf{x})$; therefore we take $f_m(\textbf{x})$ to be the regression of $y$ to $\textbf{x}$ with weights $w_i$ on the training data. We have the following \textsl{Gentle AdaBoost} algorithm.
 
@@ -253,7 +253,7 @@ This method is clearly more powerful than optimization only on $\beta_m$ and is 
 \end{align}
 Finally, the areas $R_{m,k}$ are divided accordint to the regression in line 2(b), which tries to approximate $d_m$ by $f_m$ (as explained, we have taken $c = 1$).
 
-%For the absolute loss function, according to \eqref{opt_LAD_local}, we have $\lambda_{m,k} = arg\min\limits_{\lambda \in \mathbb{R}} \vert y_i - F_{m-1}(\textbf{x}_i) - \lambda\vert = \text{median} \{y_i - F_{m-1}(\textbf{x}_i)\}_{i, \textbf{x}_i \in R_{m,k}}$, $\forall k=1:K$. We obtain \textsl{LAD TreeBoost} algorithm described below.
+For the absolute loss function, according to \eqref{opt_LAD_local}, we have $\lambda_{m,k} = arg\min\limits_{\lambda \in \mathbb{R}} \vert y_i - F_{m-1}(\textbf{x}_i) - \lambda\vert = \text{median} \{y_i - F_{m-1}(\textbf{x}_i)\}_{i, \textbf{x}_i \in R_{m,k}}$, $\forall k=1:K$. We obtain \textsl{LAD TreeBoost} algorithm described below.
 
 \begin{center}
 	\fbox{
@@ -272,11 +272,49 @@ Finally, the areas $R_{m,k}$ are divided accordint to the regression in line 2(b
 
 \subsection{M-regression loss function}
 
-\subsection{$L(y, F(\textbf{x})) = 2y^{*}F(\textbf{x}) - log(1+e^{2F(\textbf{x})})$}
+\subsection{Negative Binomial log-likelihood loss function}
+The binomial log-likelihood loss function is $L(y, F(\textbf{x})) = \log\left( 1 + e^{2F(\textbf{x})}\right) - 2y^{*}F(\textbf{x})$ in which $y^{*} = \dfrac{y+1}{2}$. In Bernouilli model, the probability that $y^{*}$ taking value $1$ is $p(\textbf{x}) = \dfrac{e^{F(\textbf{x})}}{e^{F(\textbf{x})} + e^{-F(\textbf{x})}}$. The negative log-likelihood is calculated by:
+\begin{align}
+    L(y, F(\textbf{x})) &= -y^{*}\log p(\textbf{x}) - (1-y^{*})\log(1-p(\textbf{x})) \notag \\
+    &= \log\left( 1+e^{2F(\textbf{x})}\right) + y^{*}\log \dfrac{1+e^{-2F(\textbf{x})}}{1+e^{2F(\textbf{x})}} \notag
+\end{align}
+We replace the last term simply by $-2y^{*}F(\textbf{x})$, and obtain the loss function above.
+
+The direction of descent $d_m$ is taken to be the Newton-Raphson steps in the \textbf{population version} ($d_m$ is parameterized by $\textbf{x}$). By denoting $p_m(\textbf{x}_i) = \dfrac{e^{F_{m-1}(\textbf{x}_i)}}{e^{F_{m-1}(\textbf{x}_i)} + e^{-F_{m-1}(\textbf{x}_i)}}$ and by ignoring some multiplying constants in \textsl{Hessian} matrix, we have:
+\begin{align}
+    d_m(\textbf{x}) &= -\left( \dfrac{\partial^2 Q}{\partial F(\textbf{x})^2}\right)^{-1}\dfrac{\partial Q}{\partial F(\textbf{x})} \vert_{F = F_{m-1}} \notag \\
+    &= \dfrac{\sum\limits_{\textbf{x}_i = \textbf{x}} (y_i^{*} - p_m(\textbf{x}_i))}{\sum\limits_{\textbf{x}_i = \textbf{x}} p_m(\textbf{x}_i)(1 - p_m(\textbf{x}_i))} \notag
+\end{align}
+If we put $w_i = p_m(\textbf{x}_i)(1-p_m(\textbf{x}_i))$ on the training data, we have $d_m(\textbf{x}) = \dfrac{\sum\limits_{\textbf{x}_i = \textbf{x}} \dfrac{y_i^{*} - p_m(\textbf{x}_i)}{p_m(\textbf{x}_i)(1 - p_m(\textbf{x}_i))}w_i}{\sum\limits_{\textbf{x}_i = \textbf{x}} w_i}$. We recognize that this is an empirical estimation of the quantity $\mathbb{E}_w \left[ \dfrac{y^{*} - p(\textbf{x})}{p(\textbf{x})(1 - p(\textbf{x}))}\vert \textbf{x}\right]$. The coefficient $\beta_m$ is taken value $\dfrac{1}{2}$. Then we have the following population version of \textsl{Logit Boost} algorithm.
+
+\begin{center}
+	\fbox{
+	    \parbox{0.9\textwidth}{
+	        \textbf{Logit Boost (2 classes)}\\
+	        1. Start with weights $w_i = 1/N$, $F(\textbf{x}) = 0$ and probability estimates $p(\textbf{x}_i) = 1/2$.\\
+	        2. Repeat for $m = 1,2,...,M$:\\
+	        (a) Compute $z_i = \dfrac{y_i^{*} - p(\textbf{x}_i)}{p(\textbf{x}_i)(1 - p(\textbf{x}_i))}$ and $w_i = p(\textbf{x}_i)(1 - p(\textbf{x}_i))$.\\
+	        (b) Fit the function $f_m(\textbf{x})$ by a weighted least-squares regression of $z_i$ to $\textbf{x}_i$ using weights $w_i$.\\
+	        (c) Update $F(\textbf{x}) \leftarrow F(\textbf{x}) + \dfrac{1}{2}f_m(\textbf{x})$, and $p(\textbf{x}) = \dfrac{e^{F(\textbf{x})}}{e^{F(\textbf{x})} + e^{-F(\textbf{x})}}$.\\
+	        3. Output the classifier $sign\left[ F(\textbf{x})\right] = sign\left[ F(\textbf{x})\right]$.
+	    }
+	}
+\end{center}
+
+In the derivation of this \textsl{Logit Boost} algorithm, we comment that although $\textbf{x}_i = \textbf{x}$, the quantity $p_m(\textbf{x}_i)(1 - p_m(\textbf{x}_i))$ is not constant. Indeed, in our implementation $p_m(\textbf{x}_i)$ depends on $F_{m-1}(\textbf{x}_i)$ with parameterization by $i=1:N$ and not by $\textbf{x}$. The interpretation of the population version is, although all $F_m$ and $f_m$ is calculated on $\{ \textbf{x}_i\}_{i=1:N}$, their right parameterization in function space is by $\textbf{x} \in \mathcal{X}$ and not by $i=1:N$. The vector $d_m$ parameterized by $\textbf{x} \in \mathcal{X}$ may be easier to be used in regression of function $f_m$. This is an advantage of the point of view that considers boosting as an optimization in the function space.
+
+\textbf{Comparison between population and non-population version.} There exists a \textbf{non-population version} of \textsl{Logit Boost} that consists on doing regression of $f_m$ \textbf{without weights} $w$. We can derive it by parameterizing vector $d_m$ by $d_m^{(i)}\vert_{i=1:N}$. We use the same simulated dataset than one used in \ref{exp_loss_part} to compare these two versions. The results in Fig. \ref{comp_pop_nonPop} prove the good performance of population version compared to the non-population one.
+
+\begin{figure}[ht]\centering
+  	\includegraphics[width=0.7\textwidth]{comp_pop_nonPop.jpg}
+  	\caption{Comparison of the performance of population and non-population version of \textsl{Logit Boost} algorithm on simulated data.}
+  	\label{comp_pop_nonPop}
+\end{figure}
 
 \subsection{$L(y, F(\textbf{x})) = \log(1+e^{-2yF(\textbf{x})})$}
 
 \section{Multi-class classification and some generalizations}
+Now
 
 \subsection{A traditional approach}
 
