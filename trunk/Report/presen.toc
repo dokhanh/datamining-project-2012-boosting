@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.10pt}
+\beamer@sectionintoc {1}{Two-class problem}{3}{0}{1}
+\beamer@sectionintoc {2}{Multi-class problem}{5}{0}{2}
+\beamer@sectionintoc {3}{Experiments}{8}{0}{3}
