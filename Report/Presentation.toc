@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.10pt}
+\beamer@sectionintoc {2}{Experiment}{3}{0}{1}
+\beamer@subsectionintoc {2}{1}{Binary Classification Boosting Algorithm}{4}{0}{1}
+\beamer@subsectionintoc {2}{2}{Multi-class Classification Boosting Algorithm}{10}{0}{1}
