@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.6.5)  10 MAY 2012 21:22
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.6.5)  11 MAY 2012 02:59
 entering extended mode
 **boost_report.tex
 
-(C:\Users\Khanh\workspace\coursTelecomApp\project\svn-travail\Report\boost_repo
-rt.tex
+(C:\Users\Khanh\workspace\coursTelecomApp\project\datamining-project-2012-boost
+ing\Report\boost_report.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -337,8 +337,8 @@ Package: amssymb 2009/06/22 v3.00
 \f@ncyO@olf=\skip59
 \f@ncyO@orf=\skip60
 )
-(C:\Users\Khanh\workspace\coursTelecomApp\project\svn-travail\Report\boost_repo
-rt.aux)
+(C:\Users\Khanh\workspace\coursTelecomApp\project\datamining-project-2012-boost
+ing\Report\boost_report.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
 LaTeX Font Info:    ... okay on input line 79.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
@@ -444,11 +444,11 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 80.
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 86.
+(Font)              <12> on input line 87.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 86.
+(Font)              <8> on input line 87.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 86.
+(Font)              <6> on input line 87.
  [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
@@ -461,98 +461,157 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [2] <loss_exp.jpg, id=24, 668.4975pt x 395.4775pt>
 File: loss_exp.jpg Graphic file (type jpg)
  <use loss_exp.jpg>
-Package pdftex.def Info: loss_exp.jpg used on input line 162.
+Package pdftex.def Info: loss_exp.jpg used on input line 163.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
- [3 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/loss_e
-xp.jpg>]
-[4] [5] [6] [7] <comp_pop_nonPop.jpg, id=45, 668.4975pt x 395.4775pt>
+ [3]
+[4 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-bo
+osting/Report/loss_exp.jpg>] [5] [6] [7]
+<comp_pop_nonPop.jpg, id=45, 668.4975pt x 395.4775pt>
 File: comp_pop_nonPop.jpg Graphic file (type jpg)
 
 <use comp_pop_nonPop.jpg>
-Package pdftex.def Info: comp_pop_nonPop.jpg used on input line 367.
+Package pdftex.def Info: comp_pop_nonPop.jpg used on input line 368.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
  [8]
-Overfull \hbox (17.212pt too wide) in paragraph at lines 383--385
+Overfull \hbox (17.212pt too wide) in paragraph at lines 384--386
 \T1/lmr/m/n/12 If we put $\OML/lmm/m/it/12 w[] \OT1/lmr/m/n/12 = \OML/lmm/m/it/
 12 p[]\OT1/lmr/m/n/12 ([][])(1 \OMS/lmsy/m/n/12   \OML/lmm/m/it/12 p[]\OT1/lmr/
 m/n/12 ([][]))$ \T1/lmr/m/n/12 on the trai-ning data, we have $\OML/lmm/m/it/12
  d[]\OT1/lmr/m/n/12 ([]) = []$\T1/lmr/m/n/12 .
  []
 
-[9 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/comp_po
-p_nonPop.jpg>]
+[9 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-bo
+osting/Report/comp_pop_nonPop.jpg>]
 
 LaTeX Warning: Reference `algo:l2_treeboost' on page 10 undefined on input line
- 409.
+ 410.
 
 [10] <comp_MH.jpg, id=55, 668.4975pt x 395.4775pt>
 File: comp_MH.jpg Graphic file (type jpg)
  <use comp_MH.jpg>
-Package pdftex.def Info: comp_MH.jpg used on input line 441.
+Package pdftex.def Info: comp_MH.jpg used on input line 442.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
 
 <comp_MH1.jpg, id=56, 668.4975pt x 395.4775pt>
 File: comp_MH1.jpg Graphic file (type jpg)
  <use comp_MH1.jpg>
-Package pdftex.def Info: comp_MH1.jpg used on input line 447.
+Package pdftex.def Info: comp_MH1.jpg used on input line 448.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
 
 <comp_MH2.jpg, id=57, 668.4975pt x 395.4775pt>
 File: comp_MH2.jpg Graphic file (type jpg)
  <use comp_MH2.jpg>
-Package pdftex.def Info: comp_MH2.jpg used on input line 453.
+Package pdftex.def Info: comp_MH2.jpg used on input line 454.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
- [11 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/comp_
-MH.jpg> <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/co
-mp_MH1.jpg>]
+ [11 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-
+boosting/Report/comp_MH.jpg> <C:/Users/Khanh/workspace/coursTelecomApp/project/
+datamining-project-2012-boosting/Report/comp_MH1.jpg>]
 <multi_comp0.jpg, id=61, 668.4975pt x 395.4775pt>
 File: multi_comp0.jpg Graphic file (type jpg)
  <use multi_comp0.jpg>
-Package pdftex.def Info: multi_comp0.jpg used on input line 476.
+Package pdftex.def Info: multi_comp0.jpg used on input line 477.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
 
 <multi_comp1.jpg, id=62, 668.4975pt x 395.4775pt>
 File: multi_comp1.jpg Graphic file (type jpg)
  <use multi_comp1.jpg>
-Package pdftex.def Info: multi_comp1.jpg used on input line 482.
+Package pdftex.def Info: multi_comp1.jpg used on input line 483.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
 
 <multi_comp2.jpg, id=63, 668.4975pt x 395.4775pt>
 File: multi_comp2.jpg Graphic file (type jpg)
  <use multi_comp2.jpg>
-Package pdftex.def Info: multi_comp2.jpg used on input line 488.
+Package pdftex.def Info: multi_comp2.jpg used on input line 489.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
 
 <multi_comp3.jpg, id=64, 668.4975pt x 395.4775pt>
 File: multi_comp3.jpg Graphic file (type jpg)
  <use multi_comp3.jpg>
-Package pdftex.def Info: multi_comp3.jpg used on input line 494.
+Package pdftex.def Info: multi_comp3.jpg used on input line 495.
 (pdftex.def)             Requested size: 338.58632pt x 200.30896pt.
 
-[12 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/comp_M
-H2.jpg>]
+[12 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-b
+oosting/Report/comp_MH2.jpg>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [13 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/multi
-_comp0.jpg> <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Repor
-t/multi_comp1.jpg>]
+ [13 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-
+boosting/Report/multi_comp0.jpg> <C:/Users/Khanh/workspace/coursTelecomApp/proj
+ect/datamining-project-2012-boosting/Report/multi_comp1.jpg>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [14 <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Report/multi
-_comp2.jpg> <C:/Users/Khanh/workspace/coursTelecomApp/project/svn-travail/Repor
-t/multi_comp3.jpg>] [15]
-(C:\Users\Khanh\workspace\coursTelecomApp\project\svn-travail\Report\boost_repo
-rt.aux)
+ [14 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-
+boosting/Report/multi_comp2.jpg> <C:/Users/Khanh/workspace/coursTelecomApp/proj
+ect/datamining-project-2012-boosting/Report/multi_comp3.jpg>]
+<Figures/simulated_dataset.jpg, id=75, 1610.015pt x 880.28876pt>
+File: Figures/simulated_dataset.jpg Graphic file (type jpg)
+
+<use Figures/simulated_dataset.jpg>
+Package pdftex.def Info: Figures/simulated_dataset.jpg used on input line 559.
+(pdftex.def)             Requested size: 338.58632pt x 185.1213pt.
+
+Underfull \vbox (badness 7759) has occurred while \output is active []
+
+ [15]
+<Figures/bin_class_comparison.jpg, id=79, 1610.015pt x 880.28876pt>
+File: Figures/bin_class_comparison.jpg Graphic file (type jpg)
+
+<use Figures/bin_class_comparison.jpg>
+Package pdftex.def Info: Figures/bin_class_comparison.jpg used on input line 56
+7.
+(pdftex.def)             Requested size: 338.58632pt x 185.1213pt.
+
+<Figures/bin_class_comparison_noise_5per.jpg, id=80, 1610.015pt x 880.28876pt>
+File: Figures/bin_class_comparison_noise_5per.jpg Graphic file (type jpg)
+
+<use Figures/bin_class_comparison_noise_5per.jpg>
+Package pdftex.def Info: Figures/bin_class_comparison_noise_5per.jpg used on in
+put line 577.
+(pdftex.def)             Requested size: 338.58632pt x 185.1213pt.
+ [16 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-
+boosting/Report/Figures/simulated_dataset.jpg> <C:/Users/Khanh/workspace/coursT
+elecomApp/project/datamining-project-2012-boosting/Report/Figures/bin_class_com
+parison.jpg>]
+<Figures/bin_class_comparison_noise_10per.jpg, id=84, 1677.26625pt x 950.55125p
+t>
+File: Figures/bin_class_comparison_noise_10per.jpg Graphic file (type jpg)
+ <use Figures/bin_class_comparison_noise_10per.jpg>
+Package pdftex.def Info: Figures/bin_class_comparison_noise_10per.jpg used on i
+nput line 583.
+(pdftex.def)             Requested size: 338.58632pt x 191.87639pt.
+
+<Figures/wbc.jpg, id=85, 1677.26625pt x 950.55125pt>
+File: Figures/wbc.jpg Graphic file (type jpg)
+ <use Figures/wbc.jpg>
+Package pdftex.def Info: Figures/wbc.jpg used on input line 592.
+(pdftex.def)             Requested size: 338.58632pt x 191.87639pt.
+
+Underfull \vbox (badness 1466) has occurred while \output is active []
+
+ [17 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-
+boosting/Report/Figures/bin_class_comparison_noise_5per.jpg> <C:/Users/Khanh/wo
+rkspace/coursTelecomApp/project/datamining-project-2012-boosting/Report/Figures
+/bin_class_comparison_noise_10per.jpg>]
+<Figures/wine_quality.jpg, id=89, 1679.27374pt x 958.58125pt>
+File: Figures/wine_quality.jpg Graphic file (type jpg)
+
+<use Figures/wine_quality.jpg>
+Package pdftex.def Info: Figures/wine_quality.jpg used on input line 601.
+(pdftex.def)             Requested size: 338.58632pt x 193.26329pt.
+ [18 <C:/Users/Khanh/workspace/coursTelecomApp/project/datamining-project-2012-
+boosting/Report/Figures/wbc.jpg> <C:/Users/Khanh/workspace/coursTelecomApp/proj
+ect/datamining-project-2012-boosting/Report/Figures/wine_quality.jpg>] [19]
+(C:\Users\Khanh\workspace\coursTelecomApp\project\datamining-project-2012-boost
+ing\Report\boost_report.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 4629 strings out of 494053
- 61593 string characters out of 3148604
- 131711 words of memory out of 3000000
- 7776 multiletter control sequences out of 15000+200000
- 88070 words of font info for 71 fonts, out of 3000000 for 9000
+ 4673 strings out of 494053
+ 62974 string characters out of 3148604
+ 132790 words of memory out of 3000000
+ 7811 multiletter control sequences out of 15000+200000
+ 92332 words of font info for 72 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
  28i,20n,43p,1284b,281s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Program Files/M
@@ -570,13 +629,14 @@ am Files/MiKTeX 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Program Files/MiKTeX 2.
 9/fonts/type1/public/lm/lmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
 ic/lm/lmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr6.pfb><C:
 /Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/lm/lmro12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/lm/lmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy6
-.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy8.pfb><C:/Program F
-iles/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on boost_report.pdf (15 pages, 576572 bytes).
+eX 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/lm/lmro12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy1
+0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy6.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy8.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on boost_report.pdf (19 pages, 1077539 bytes).
 PDF statistics:
- 143 PDF objects out of 1000 (max. 8388607)
+ 166 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 76 words of extra memory for PDF output out of 10000 (max. 10000000)
 
