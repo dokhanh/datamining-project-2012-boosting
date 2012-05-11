@@ -81,6 +81,7 @@
 \pagestyle{fancy}
 
 \section{Introduction}
+In this report, we give an overview on boosting methods that were primarily presented in \cite{boost} and \cite{trebst} under different points of view. Our working consists on summary all these methods under a common mathematical model which is the problem of optimization in a function space. We will try to explain these algorithms by our model, then give some general rules that can help to construct other similar methods (see Tab. \ref{sum_tab} at the end of the report). We also discuss about the way applying these methods on multi-class problems, following some ideas presented in \cite{SchaAndSin1998}. The theoretic parts will be followed by some simulation studies that will help us to understand the real performance of these methods.
 
 \section{Two-class classification}
 In this first part, we present an overview on boosting methods in the two-class classification framework. From a \textsl{training} set $(\textbf{x}_i, y_i)_{i = 1,...,N}$ in which $\textbf{x}_i \in \mathcal{X}$ and $y_i \in \mathcal{Y}$, we try to construct a function $F: \mathcal{X} \rightarrow \mathcal{Y}$ so that when a new value $\textbf{x}$ is randomly introduced, we have the highest probability to predict correctly the value $y$ corresponding to this value of $\textbf{x}$. Formally, we want to minimize the probability:
@@ -537,7 +538,7 @@ We derive the multi-class version of \textsl{Logit Boost} similarly as in two-cl
 	}
 \end{center}
 
-\textbf{Experiments:} We use the same simulated multi-class dataset with $J = 4$ and Bayes error is $0\%$, $5\%$ and $10\%$. The results are shown in Fig. \ref{multi_comp0}, \ref{multi_comp1} and \ref{multi_comp2}. With $J=4$, we see that the two generalizations of negative binomial loss function algorithms in multi-class case perform better than all versions of \textsl{AdaBoost MH}. But an disadvantage of \textsl{Logit Boost for J classes}, as mentioned in \cite{boost} and \cite{trebst}, is the numerical instability when one of weights $w(\textbf{x}) = p(\textbf{x})(1 - p(\textbf{x}))$ tends to zero. Indeed, when we try with $J=6$, the result in Fig. \ref{multi_comp3} shows that \textsl{Logit Boost} encounters a numerical problem. In this experiment, \textsl{AdaBoost MH} performs the best among these three algorithms.
+\textbf{Experiments:} We use the same simulated multi-class dataset with $J = 4$ and Bayes error is $0\%$, $5\%$ and $10\%$. The results are shown in Fig. \ref{multi_comp0}, \ref{multi_comp1} and \ref{multi_comp2}. With $J=4$, we see that the two generalizations of negative binomial loss function algorithms in multi-class case perform better than all versions of \textsl{AdaBoost MH}. But a disadvantage of \textsl{Logit Boost for J classes}, as mentioned in \cite{boost} and \cite{trebst}, is the numerical instability when one of weights $w(\textbf{x}) = p(\textbf{x})(1 - p(\textbf{x}))$ tends to zero. Indeed, when we try with $J=6$, the result in Fig. \ref{multi_comp3} shows that \textsl{Logit Boost} encounters a numerical problem. In this experiment, \textsl{AdaBoost MH} performs the best among these three algorithms.
 
 \section{Experiments}
 
@@ -600,9 +601,40 @@ We use the 5-fold cross validation and obtain the results depicted in Figure \re
 \includegraphics[width = 0.7\textwidth]{Figures/wine_quality}
 \label{fig:wine_quality}
 \end{figure}
-We use the 5-fold cross validation and obtain the results depicted in Figure \ref{fig:wine_quality}. We roughly obtain them same result compared to simulated data. The AdaBoostMH achieve the best error rate, meanwhile, the \textit{Logit Boost for J class} still encounters numerical problem.
+We use the 5-fold cross validation and obtain the results depicted in Figure \ref{fig:wine_quality}. We roughly obtain the same result compared to simulated data. The AdaBoostMH achieve the best error rate, meanwhile, the \textit{Logit Boost for J class} still encounters numerical problem.
 
 \section{Conclusion}
+In this report, we reviewed some algorithms of boosting and compared their performances on simulated and real data set. In the first part, we presented a common model that can be used to explain all mentioned algorithms. The boosting algorithms was derived and explained as optimization problems in function space: we also start by looking for a direction of descent $d_m$, then we construct, by base classifiers, regression functions which are close to this direction, and add it to the current approximation. The optimization algorithms in numerical space gave us some ideas about performance of boosting methods, and about their performance. A boosting algorithm differs from another by three options: firstly, the loss function $L$; secondly, the way $d_m$ and $\beta_m$ are chosen (gradient descent, steppest descent, Newton-Raphson step, direct optimization, etc.); and thirdly, the way $f_m$ is constructed to regress $d_m$ (the choice of $\mathcal{Q}_m$, population or non-population version etc.). We summary them in the Tab. \ref{sum_tab}.
+
+\begin{table}\centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+          & $L(y,F)$ & $d_m$/$\beta_m$ & $\mathcal{Q}_m$ & pop-ver \\
+         \hline
+         Discrete AB & $e^{-yF}$ & gradient/steppest descent & $f_m \in \{-1, 1\}$ & No \\
+         \hline
+         Real AB & $e^{-yF}$ & direct optimization & smoothing & Yes \\
+         \hline
+         Gentle AB & $e^{-yF}$ & Newton step & smoothing & Yes \\
+         \hline
+         LS Boost & $(y-F)^2$ & gradient/steppest descent & LS & No \\
+         \hline
+         LAD TB & $\vert y - F\vert$ & gradient/tree & tree & No \\
+         \hline
+         M TB & Huber & gradient/tree & tree & No \\
+         \hline
+         Logit B & $\log(1+e^{2F}) - 2y^{*}F$ & Newton step & smoothing & Yes \\
+         \hline
+         L2 TB & $\log(1+e^{-2yF})$ & gradient/tree & tree & No \\
+         \hline
+         Lk TB & - Binomial Likelihood & gradient/tree & tree & No \\
+         \hline
+    \end{tabular}
+    \caption{Summary on boosting algorithms.}
+    \label{sum_tab}
+\end{table}
+
+We also reviewed some generalizations in multi-class problems, following some ideas presented in \cite{SchaAndSin1998}. We described a generic algorithm in this situation that employes directly the two-class algorithms in order to obtain results that can be then generated to multi-class case. Some two-class methods also have their generalizations in multi-class problem. Finally, we tested these methods on simulated and real data set in order to have some ideas about their performance in reality.
 
 \begin{thebibliography}{9999}%\enlargethispage{\baselineskip}
 \bibitem[1]{boost}Friedman, J., Hastie, T. \& Tibshirani, R. \textsl{Additive Logistic Regression: a Statistical View of Boosting}, 2000.
