@@ -1,0 +1,1 @@
+This is the project conducted in the scope of the course Data-mining MDI343/2012.
